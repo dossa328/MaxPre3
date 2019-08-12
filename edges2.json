@@ -1,0 +1,102 @@
+{
+  "1": [
+    {"from":"서동탄","to":"병점","distance":3000,"time":5},
+    {"from":"동두천","to":"소요산","distance":2500,"time":4}
+  ],
+  "2": [
+    {"from":"까치산","to":"신정네거리","distance":1400,"time":3},
+    {"from":"을지로입구","to":"시청","distance":700,"time":2}
+  ],
+  "3": [
+    {"from":"오금","to":"경찰병원","distance":800,"time":2},
+    {"from":"주엽","to":"대화","distance":1400,"time":2}
+  ],
+  "4": [
+    {"from":"오이도","to":"정왕","distance":1400,"time":2},
+    {"from":"노원","to":"상계","distance":1000,"time":2},
+    {"from":"상계","to":"당고개","distance":1200,"time":2}
+  ],
+  "5": [
+    {"from":"마천","to":"거여","distance":900,"time":2},
+    {"from":"개화산","to":"방화","distance":900,"time":2}
+  ],
+  "6": [
+    {"from":"봉화산","to":"화랑대","distance":700,"time":2},
+    {"from":"구산","to":"응암","distance":900,"time":2}
+  ],
+  "7": [
+    {"from":"부평구청","to":"굴포천","distance":950,"time":2},
+    {"from":"도봉산","to":"장암","distance":1400,"time":2}
+  ],
+  "8": [
+    {"from":"모란","to":"수진","distance":1000,"time":3},
+    {"from":"천호","to":"암사","distance":1300,"time":2}
+  ],
+  "9": [
+    {"from":"종합운동장","to":"봉은사","distance":1600,"time":3},
+    {"from":"김포공항","to":"개화","distance":3600,"time":6}
+  ],
+  "A": [
+    {"from":"서울","to":"공덕","distance":3500,"time":4},
+    {"from":"인천공항1터미널","to":"인천공항2터미널","distance":5830,"time":6}
+  ],
+  "K": [
+    {"from":"서울","to":"신촌(경의중앙선)","distance":4690,"time":7},
+    {"from":"파주","to":"문산","distance":3350,"time":5}
+  ],
+  "G": [
+    {"from":"춘천","to":"남춘천","distance":1020,"time":3},
+    {"from":"회기","to":"청량리","distance":1400,"time":3}
+  ],
+  "B": [
+    {"from":"수원","to":"매교","distance":1400,"time":2},
+    {"from":"서울숲","to":"왕십리","distance":1800,"time":3}
+  ],
+  "S": [
+    {"from":"광교","to":"광교중앙","distance":2240,"time":3},
+    {"from":"양재","to":"강남","distance":1600,"time":2}
+  ],
+  "SU": [
+    {"from":"달월","to":"월곶","distance":3900,"time":3},
+    {"from":"신포","to":"인천","distance":1300,"time":2}
+  ],
+  "KK": [
+    {"from":"판교","to":"이매","distance":1400,"time":2},
+    {"from":"세종대왕릉","to":"여주","distance":5520,"time":5}
+  ],
+  "I": [
+    {"from":"국제업무지구","to":"센트럴파크","distance":920,"time":2},
+    {"from":"귤현","to":"계양","distance":940,"time":3}
+  ],
+  "I2": [
+    {"from":"검단오류","to":"왕길","distance":1400,"time":2},
+    {"from":"왕길","to":"검단사거리","distance":1500,"time":2},
+    {"from":"시민공원","to":"석바위시장","distance":1000,"time":1},
+    {"from":"인천대공원","to":"운연","distance":1300,"time":2}
+  ],
+  "U": [
+    {"from":"발곡","to":"회룡","distance":800,"time":1},
+    {"from":"회룡","to":"범골","distance":700,"time":1},
+    {"from":"송산","to":"탑석","distance":500,"time":1}
+  ],
+  "E": [
+    {"from":"기흥","to":"강남대","distance":1000,"time":1},
+    {"from":"고진","to":"보평","distance":1800,"time":2},
+    {"from":"보평","to":"둔전","distance":1000,"time":2},
+    {"from":"둔전","to":"전대·에버랜드","distance":2600,"time":5}
+  ],
+  "UI": [
+    {"from":"북한산우이","to":"솔밭공원","distance":800,"time":1},
+    {"from":"솔밭공원","to":"4·19민주묘지","distance":700,"time":2},
+    {"from":"성신여대입구","to":"보문","distance":1100,"time":3},
+    {"from":"보문","to":"신설동","distance":1300,"time":2}
+  ],
+  "W": [
+    {"from":"소사","to":"소새울","distance":1700,"time":3},
+    {"from":"원곡","to":"원시","distance":1500,"time":2}
+  ],
+  "M": [
+    {"from":"인천공항1터미널","to":"장기주차장","distance":500,"time":1},
+    {"from":"워터파크","to":"용유","distance":1200,"time":3}
+  ]
+}
