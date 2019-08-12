@@ -12,6 +12,8 @@ class ap:
         self.cc = 0
         self.can_path_out = []
         self.cost_matrix2 = {}
+        self.min_cost = 0
+        self.cc2 = 0
 
     def is_adjacent2(self, v_from, v_to):
         if v_from not in self.cost_matrix2:
@@ -38,19 +40,28 @@ class ap:
             return self.candidate_path
         for it in input_vertex:
             if self.is_adjacent2(start, it):
+                self.cc2 = self.cc2 + int(self.get_cost(it, self.visit[-1]))
                 if it not in self.visit:
+                    if self.cc2 > self.min_cost:
+                        break
                     self.cal_dfs(it, end, input_vertex)
                     self.visit.remove(it)
+                    self.cc2 = 0
 
         self.stack.pop()
 
-    def out_dfs(self, start, end, input_vertex, cost_matrix2):
+    def out_dfs(self, start, end, input_vertex, cost_matrix2, min_cost):
         self.cost_matrix2 = cost_matrix2
+        self.min_cost = min_cost
         self.cal_dfs(start, end, input_vertex)
         for i in range(len(self.candidate_path)):
             cc = 0
             for j in range(len(self.candidate_path[i]) - 1):
                 cc = cc + int(self.get_cost(self.candidate_path[i][j], self.candidate_path[i][j + 1]))
-            self.candidate_path[i].append(cc)
+
+            if cc > self.min_cost:
+                del(self.candidate_path[i])
+            else:
+                self.candidate_path[i].append(cc)
 
         return self.candidate_path
