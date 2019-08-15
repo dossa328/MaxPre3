@@ -11,14 +11,20 @@ list_way_edges = {}
 distance = {}
 priority_Queue = []
 distance2 = {}
-in_start = '목동'
+dij_path = []
+path_stack = []
+in_start = '신정'
 in_end = '오목교'
 input_all_vertex = 0
 # 밑에꺼 raw_input() 이었음..
-
-# 전체 노선도 불러옴
+# 역별 번호 불러옴
 # ------------------------------------------------------------------
-with open('edges2.json', 'r', encoding='UTF-8') as json_file:
+with open('station_number.json', 'r', encoding='UTF-8') as station_num:
+    station_num_data = json.load(station_num)
+# 전체 노선도 불러옴
+# edges : all / 43, edges2 : 5 , 공항선(A), 6 / 47, edges3 : 5, A, 6, 2 / 45, edges4 :1,2,5,6,A / 45, edges5 : 5,1,6 / 47
+# ------------------------------------------------------------------
+with open('edges5.json', 'r', encoding='UTF-8') as json_file:
     json_data = json.load(json_file)
 
     # print(json_data)
@@ -119,6 +125,24 @@ for i in p_distance:
         min_cost = i[1]
         break
 
+'''
+while len(distance) != 0:
+    ind = 0
+    dij_path.append(distance[ind])
+    if graph.is_adjacent(dij_path[i], dij_path[i+1]):
+        path_stack.append(dij_path[i+1])
+
+
+def print_path(start, end, distance):
+    path_stack.append(start)
+    while path_stack[-1] == end:
+        if graph.is_adjacent(path_stack[-1], i.key()) and i.key() not in path_stack:
+            path_stack.append()
+
+
+print_path(in_start, in_end, distance)
+'''
+'''
 for i in range(len(p_distance)):
     print(p_distance[i][1])
 
@@ -126,7 +150,7 @@ cost_matrix2 = c(graph.cost_matrix)
 app_path = ap()
 print(app_path.out_dfs(in_start, in_end, input_vertex_1, cost_matrix2, min_cost))
 # print sorted(distance, key=lambda t: t[1])
-
+'''
 '''
 for i in range(len(p_distance)):
     print p_distance[i][1]

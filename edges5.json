@@ -1,0 +1,8 @@
+{
+  "5": [
+    {"from":"영등포구청","to":"양평","distance":800,"time":2},
+    {"from":"양평","to":"오목교","distance":1100,"time":2},
+    {"from":"오목교","to":"목동","distance":900,"time":2},
+    {"from":"목동","to":"신정","distance":800,"time":2}
+  ]
+}
