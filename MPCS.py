@@ -100,6 +100,7 @@ for i in range(int(input_num_edges)):
 if priority_Queue[0][0] == in_start:
     priority_Queue[0][2] = in_start
 
+# 다익스트라 시작
 while len(priority_Queue) != 0:
     if distance[priority_Queue[0][0]] >= priority_Queue[0][1]:
         for i in range(len(input_vertex)):
