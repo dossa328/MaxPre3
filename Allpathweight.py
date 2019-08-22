@@ -4,11 +4,13 @@ graph = Graph(undirected=False)
 
 
 class ap:
-    def __init__(self):
+    def __init__(self, lines):
+        self.lines = lines
         self.visit = list()
         self.stack = list()
         self.all_path = {}
         self.candidate_path = []
+        self.out_candidate_path = list()
         self.cc = 0
         self.can_path_out = []
         self.cost_matrix2 = {}
@@ -22,6 +24,18 @@ class ap:
             return False
         else:
             return True
+
+    def is_sameline(self, before, after):
+        for i in self.lines[0]:
+            if before == i:
+                before_key = i
+            if after == i:
+                after_key = i
+
+        if before_key == after_key:
+            return True
+        else:
+            return False
 
     def get_cost(self, v_from, v_to):
         if v_from not in self.cost_matrix2:
@@ -47,21 +61,28 @@ class ap:
                     self.cal_dfs(it, end, input_vertex)
                     self.visit.remove(it)
                     self.cc2 = 0
-
         self.stack.pop()
 
     def out_dfs(self, start, end, input_vertex, cost_matrix2, min_cost):
         self.cost_matrix2 = cost_matrix2
         self.min_cost = min_cost
+        input_vertex = list(set(input_vertex))
         self.cal_dfs(start, end, input_vertex)
         for i in range(len(self.candidate_path)):
             cc = 0
             for j in range(len(self.candidate_path[i]) - 1):
-                cc = cc + int(self.get_cost(self.candidate_path[i][j], self.candidate_path[i][j + 1]))
+                    cc = cc + int(self.get_cost(self.candidate_path[i][j], self.candidate_path[i][j + 1]))
+                    if self.candidate_path[i][j] == "공덕":
+                        cc = cc + 1.016667
+                    if self.candidate_path[i][j] == "청구":
+                        cc = cc + 1.45
 
-            if cc > self.min_cost:
-                del(self.candidate_path[i])
+            if cc > self.min_cost*1.1:
+                pass
             else:
                 self.candidate_path[i].append(cc)
+                self.out_candidate_path.append(self.candidate_path[i])
 
-        return self.candidate_path
+        return self.out_candidate_path
+
+
