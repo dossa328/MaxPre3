@@ -1,0 +1,14 @@
+{
+  "1": [
+    {"from":"A","to":"B","time":10},
+    {"from":"A","to":"C","time":5},
+    {"from":"B","to":"C","time":2},
+    {"from":"B","to":"D","time":1},
+    {"from":"C","to":"B","time":3},
+    {"from":"C","to":"D","time":9},
+    {"from":"C","to":"E","time":2},
+    {"from":"D","to":"E","time":4},
+    {"from":"E","to":"A","time":7},
+    {"from":"E","to":"D","time":6}
+  ]
+}

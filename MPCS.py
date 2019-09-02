@@ -4,6 +4,8 @@ from Graph import Graph
 from copy import deepcopy as c
 from Allpathweight import ap
 import json
+import time
+start = time.time()
 graph = Graph(undirected=True)
 maximum_value = pow(2, 31)
 input_way_edges = []
@@ -14,7 +16,7 @@ distance2 = {}
 dij_path = []
 path_stack = []
 in_start = '목동'
-in_end = '종합운동장'
+in_end = '고려대'
 input_all_vertex = 0
 # 밑에꺼 raw_input() 이었음..
 # 역별 번호 불러옴
@@ -147,8 +149,8 @@ print_path(in_start, in_end, distance)
 '''
 # 전체노선출력임
 
-for i in range(len(p_distance)):
-    print(p_distance[i][1])
+# for i in range(len(p_distance)):
+#    print(p_distance[i][1])
 
 cost_matrix2 = c(graph.cost_matrix)
 app_path = ap(SeoulMetro_list)
@@ -159,3 +161,4 @@ print(app_path.out_dfs(in_start, in_end, input_vertex_1, cost_matrix2, min_cost)
 for i in range(len(p_distance)):
     print p_distance[i][1]
 '''
+print("time :", time.time() - start)

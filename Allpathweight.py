@@ -84,5 +84,3 @@ class ap:
                 self.out_candidate_path.append(self.candidate_path[i])
 
         return self.out_candidate_path
-
-
