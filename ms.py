@@ -2,7 +2,7 @@ import json
 
 maxint = pow(2, 31)
 
-with open('edges2.json', 'r', encoding='UTF-8') as json_file:
+with open('edges.json', 'r', encoding='UTF-8') as json_file:
     json_data = json.load(json_file)
 
 with open('line.json', 'r', encoding='UTF-8') as line_file:
@@ -13,12 +13,13 @@ SeoulMetroLine = {}
 SeoulMetro_list = []
 SeoulMetroLine_list = []
 for i in json_data:
-    SeoulMetro[i] = {}
+    # SeoulMetro[i] = {}
     for j in json_data[i]:
         SeoulMetro_list.append([j["from"], j["to"], j["time"]])
+        SeoulMetro_list.append([j["to"], j["from"], j["time"]])
 
 for i in line_data:
-    SeoulMetroLine[i] = {}
+    # SeoulMetroLine[i] = {}
     for j in line_data[i]:
         SeoulMetroLine_list.append(j)
 
