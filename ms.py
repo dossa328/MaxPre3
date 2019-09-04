@@ -8,6 +8,9 @@ with open('edges.json', 'r', encoding='UTF-8') as json_file:
 with open('line.json', 'r', encoding='UTF-8') as line_file:
     line_data = json.load(line_file)
 
+in_start = '목동'
+in_end = '고려대'
+
 SeoulMetro = {}
 SeoulMetroLine = {}
 SeoulMetro_list = []
@@ -48,11 +51,13 @@ class Vertex:
 
 
 # C = input().split(',')
-source = Vertex(SeoulMetroLine_list[0])
+# source = Vertex(SeoulMetroLine_list[0])
+source = Vertex(in_start)
 source.d = 0
-vertices = {SeoulMetroLine_list[0]: source}
-for c in SeoulMetroLine_list[1:]:
-    vertices[c] = Vertex(c)
+vertices = {in_start: source}
+for c in SeoulMetroLine_list[0:]:
+    if not c == in_start:
+        vertices[c] = Vertex(c)
 num_edges = len(SeoulMetro_list)
 for i in range(num_edges):
     edge = SeoulMetro_list[i]
@@ -101,6 +106,8 @@ def dijkstra(V):
 
 result = dijkstra(vertices)
 # print(SeoulMetroLine_list)
+
+print
 
 for v in result:
     print(v.c, ":", v.d, "past : ", v.pastcost, "path : ", v.path)
