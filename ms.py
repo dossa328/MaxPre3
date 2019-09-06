@@ -1,15 +1,19 @@
 import json
+import numpy as np
 
 maxint = pow(2, 31)
 
-with open('edges.json', 'r', encoding='UTF-8') as json_file:
+with open('edges_fix.json', 'r', encoding='UTF-8') as json_file:
     json_data = json.load(json_file)
 
 with open('line.json', 'r', encoding='UTF-8') as line_file:
     line_data = json.load(line_file)
 
-in_start = '목동'
+in_start = '불광6'
 in_end = '고려대'
+
+# transline = []
+# print(line_data.keys())
 
 SeoulMetro = {}
 SeoulMetroLine = {}
@@ -17,20 +21,26 @@ SeoulMetro_list = []
 SeoulMetroLine_list = []
 for i in json_data:
     # SeoulMetro[i] = {}
-    for j in json_data[i]:
-        SeoulMetro_list.append([j["from"], j["to"], j["time"]])
-        SeoulMetro_list.append([j["to"], j["from"], j["time"]])
+    if not i == "Trans":
+        for j in json_data[i]:
+            SeoulMetro_list.append([j["from"]+i, j["to"]+i, j["time"]])
+            SeoulMetro_list.append([j["to"]+i, j["from"]+i, j["time"]])
+    elif i == "Trans":
+        for j in json_data[i]:
+            SeoulMetro_list.append([j["from"], j["to"], j["time"]])
+            SeoulMetro_list.append([j["to"], j["from"], j["time"]])
 
 for i in line_data:
     # SeoulMetroLine[i] = {}
     for j in line_data[i]:
-        SeoulMetroLine_list.append(j)
+        SeoulMetroLine_list.append(j+i)
 
 
 class Vertex:
     def __init__(self, c):
         self.c = c
         self.d = maxint
+        self.saved = []
         self.pastcost = []
         self.path = []
         self.next = {}
@@ -40,9 +50,19 @@ class Vertex:
 
     def relax(self, u):
         w = u.next[self]
+
         if self.d > u.d + w:
+            self.d = u.d
+            self.pastcost.append([self.d])
+            aa = np.array(self.pastcost)
+            # aa = np.array(self.pastcost)
+            # aa = np.array(u.d)
+            self.saved = aa + w
             self.d = u.d + w
-            self.pastcost.append(self.d)
+
+            # self.saved = aa + w
+            # aa = np.array(self.pastcost)
+            # self.na = aa + w
             if not u.path:
                 self.path.append(u.c)
             if u.path:
@@ -106,8 +126,14 @@ def dijkstra(V):
 
 result = dijkstra(vertices)
 # print(SeoulMetroLine_list)
-
-print
-
+count = 0
+vv = []
 for v in result:
-    print(v.c, ":", v.d, "past : ", v.pastcost, "path : ", v.path)
+    print(v.c, ":", v.d, "past : ", v.saved , "path : ", v.path)
+    if len(v.pastcost) >= 2:
+        vv.append([v.c, ":", v.d, "past : ", v.saved, "path : ", v.path])
+
+    count = count + 1
+
+print(count)
+print(vv)
