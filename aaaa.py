@@ -1,8 +1,13 @@
 import numpy as np
-
-a = np.array([44, 57])
+k = [44, 57]
+a = np.array([[1,'c'],[2,'d']])
 b = 2
 
-array2 = a + b
+# array2 = a + b
 
-print(array2)
+p = []
+p += 'asdf'
+print(p)
+#print(a + 2)
+print(a[a[0] + 99])
+

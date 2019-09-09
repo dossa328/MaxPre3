@@ -1,4 +1,6 @@
 import json
+import time
+start = time.time()
 import numpy as np
 
 maxint = pow(2, 31)
@@ -35,45 +37,59 @@ for i in line_data:
     for j in line_data[i]:
         SeoulMetroLine_list.append(j+i)
 
+alpha = 1.2
+
+
+class Path:
+    def __init__(self, init_d):
+        self.p = []
+        self.d = init_d
+
+    def extend(self, new_c, new_w):
+        self.p.append(new_c)
+        self.d += new_w
+        return self
+
+    def __str__(self):
+        s = "Cost:" + str(self.d) + "/ Path: "
+        for node in self.p:
+            s += node + ","
+        return s
+
 
 class Vertex:
     def __init__(self, c):
         self.c = c
-        self.d = maxint
-        self.saved = []
-        self.pastcost = []
-        self.path = []
+        # d = set of tuples
+        # each tuple = { path , d }
+        self.P = [Path(maxint)]
         self.next = {}
 
     def add_next(self, next_v, w):
         self.next[next_v] = w
 
+    def p_min(self):
+        return sorted(self.P, key=lambda p: p.d)[0]
+
     def relax(self, u):
         w = u.next[self]
-
-        if self.d > u.d + w:
-            self.d = u.d
-            self.pastcost.append([self.d])
-            aa = np.array(self.pastcost)
-            # aa = np.array(self.pastcost)
-            # aa = np.array(u.d)
-            self.saved = aa + w
-            self.d = u.d + w
-
-            # self.saved = aa + w
-            # aa = np.array(self.pastcost)
-            # self.na = aa + w
-            if not u.path:
-                self.path.append(u.c)
-            if u.path:
-                self.path.extend(u.path)
-                self.path.append(u.c)
+        cand_paths = []
+        for p in u.P:
+            cand_paths.append(p.extend(self.c, w))
+        for cand_path in cand_paths:
+            p_min = self.p_min()
+            if p_min.d * alpha > cand_path.d:
+                self.P.append(cand_path)
+                if p_min.d > cand_path.d:
+                    for p in self.P:
+                        if p.d > alpha * cand_path.d:
+                            self.P.remove(p)
 
 
 # C = input().split(',')
 # source = Vertex(SeoulMetroLine_list[0])
 source = Vertex(in_start)
-source.d = 0
+source.P = [Path(0).extend(in_start, 0)]
 vertices = {in_start: source}
 for c in SeoulMetroLine_list[0:]:
     if not c == in_start:
@@ -87,53 +103,27 @@ for i in range(num_edges):
     u.add_next(v, w)
 
 
-def build_min_heap(A):
-    def min_heapify(A, i):
-        l = 2 * i + 1
-        r = 2 * i + 2
-        size = len(A)
-        if l < size and A[l].d < A[i].d:
-            smallest = l
-        else:
-            smallest = i
-        if r < size and A[r].d < A[smallest].d:
-            smallest = r
-        if smallest != i:
-            temp = A[i]
-            A[i] = A[smallest]
-            A[smallest] = temp
-            return min_heapify(A, smallest)
-        else:
-            return A
-
-    for i in range(len(A) // 2 - 1, -1, -1):
-        A = min_heapify(A, i)
-    return A
-
-
 def dijkstra(V):
     S = []
-    min_heap = build_min_heap(list(V.values()))
-    while len(min_heap) > 0:
-        u = min_heap[0]
+    V_sorted = sorted(list(V.values()), key=lambda v: v.p_min().d)
+    while len(V_sorted) > 0:
+        u = V_sorted[0]
         S.append(u)
         v_list = sorted(u.next.keys(), key=lambda v: v.c)
         for v in v_list:
             v.relax(u)
-        min_heap = build_min_heap(min_heap[1:])
+        V_sorted = sorted(V_sorted[1:], key=lambda v: v.p_min().d)
     return sorted(S, key=lambda v: v.c)
 
 
 result = dijkstra(vertices)
+print("time :", time.time() - start)
 # print(SeoulMetroLine_list)
-count = 0
-vv = []
+destinations = ['독바위6', '독바위3']
 for v in result:
-    print(v.c, ":", v.d, "past : ", v.saved , "path : ", v.path)
-    if len(v.pastcost) >= 2:
-        vv.append([v.c, ":", v.d, "past : ", v.saved, "path : ", v.path])
+    if v.c in destinations:
+        print(v.c, len(v.P))
+        for p in v.P:
+            print(p)
 
-    count = count + 1
 
-print(count)
-print(vv)
