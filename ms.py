@@ -13,6 +13,7 @@ with open('line.json', 'r', encoding='UTF-8') as line_file:
 
 in_start = '불광6'
 in_end = '고려대'
+alpha = maxint
 
 # transline = []
 # print(line_data.keys())
@@ -37,18 +38,17 @@ for i in line_data:
     for j in line_data[i]:
         SeoulMetroLine_list.append(j+i)
 
-alpha = 1.2
-
+print(len(SeoulMetroLine_list))
 
 class Path:
-    def __init__(self, init_d):
-        self.p = []
+    def __init__(self, init_d, init_p=None):
+        self.p = [] if init_p is None else init_p
         self.d = init_d
 
-    def extend(self, new_c, new_w):
-        self.p.append(new_c)
-        self.d += new_w
-        return self
+    def extended(self, new_c, new_w):
+        p = self.p + [new_c]
+        d = self.d + new_w
+        return Path(d, p)
 
     def __str__(self):
         s = "Cost:" + str(self.d) + "/ Path: "
@@ -75,7 +75,7 @@ class Vertex:
         w = u.next[self]
         cand_paths = []
         for p in u.P:
-            cand_paths.append(p.extend(self.c, w))
+            cand_paths.append(p.extended(self.c, w))
         for cand_path in cand_paths:
             p_min = self.p_min()
             if p_min.d * alpha > cand_path.d:
@@ -89,7 +89,7 @@ class Vertex:
 # C = input().split(',')
 # source = Vertex(SeoulMetroLine_list[0])
 source = Vertex(in_start)
-source.P = [Path(0).extend(in_start, 0)]
+source.P = [Path(0, [in_start])]
 vertices = {in_start: source}
 for c in SeoulMetroLine_list[0:]:
     if not c == in_start:
@@ -119,9 +119,9 @@ def dijkstra(V):
 result = dijkstra(vertices)
 print("time :", time.time() - start)
 # print(SeoulMetroLine_list)
-destinations = ['독바위6', '독바위3']
+destinations = ['독바위6', '불광3']
 for v in result:
-    if v.c in destinations:
+    if True:
         print(v.c, len(v.P))
         for p in v.P:
             print(p)
