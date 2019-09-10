@@ -4,8 +4,7 @@ from Graph import Graph
 import numpy as np
 graph = Graph(undirected=True)
 
-in_start = '목동5'
-in_end = '안암6'
+
 count = 0
 with open('edges_fix.json', 'r', encoding='UTF-8') as json_file:
     json_data = json.load(json_file)
@@ -38,7 +37,7 @@ def find_all_paths(graph2, start, end, weight=0, path=[[], 0]):
         return [path]
     paths = []
     for node, w in graph2[start].items():
-        if node not in path[0] and path[1]+w < threshold:
+        if node not in path[0] and path[1]+w <= threshold:
             newpaths = find_all_paths(graph2, node, end, w, c(path))
             for newpath in newpaths:
                 paths.append(newpath)
@@ -56,12 +55,16 @@ def find_all_paths(graph2, start, end, weight=0, path=[[], 0]):
 
 #print(find_all_paths(graph, 'A', 'D'))
 # print(find_shortest_path(graph.cost_matrix, in_start, in_end))
-
+in_start = '목동5'
+in_end = '고려대6'
 dijkstra_result = np.load('Dijkstra_result.npy')
 dijkstra_dict = {}
 for r in dijkstra_result:
     dijkstra_dict[r[0]] = r[1]
-alpha = 1.0
+alpha = 1.2
 threshold = float(dijkstra_dict[in_end]) * alpha
-print(threshold)
-print(find_all_paths(graph.cost_matrix, in_start, in_end))
+
+output = find_all_paths(graph.cost_matrix, in_start, in_end)
+for p in output:
+    print(p[1])
+print('Count:', len(output))

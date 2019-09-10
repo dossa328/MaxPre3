@@ -11,9 +11,8 @@ with open('edges_fix.json', 'r', encoding='UTF-8') as json_file:
 with open('line.json', 'r', encoding='UTF-8') as line_file:
     line_data = json.load(line_file)
 
-in_start = '불광6'
-in_end = '고려대'
-alpha = maxint
+in_start = '목동5'
+alpha = 1.2
 
 # transline = []
 # print(line_data.keys())
@@ -120,11 +119,13 @@ def dijkstra(V):
 result = dijkstra(vertices)
 print("time :", time.time() - start)
 # print(SeoulMetroLine_list)
-destinations = ['독바위6', '불광3']
+
 for v in result:
-    if True:
-        print(v.c, len(v.P))
+    if v.c == '고려대6':
         for p in v.P:
-            print(p)
+            print(p.d)
+        print(v.c, len(v.P))
+        # for p in v.P:
+        #     print(p)
 
 

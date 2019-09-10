@@ -1,7 +1,8 @@
 import json
 import time
-start = time.time()
 import numpy as np
+start = time.time()
+
 
 maxint = pow(2, 31)
 
@@ -10,9 +11,6 @@ with open('edges_fix.json', 'r', encoding='UTF-8') as json_file:
 
 with open('line.json', 'r', encoding='UTF-8') as line_file:
     line_data = json.load(line_file)
-
-in_start = '불광6'
-in_end = '고려대'
 
 # transline = []
 # print(line_data.keys())
@@ -37,8 +35,6 @@ for i in line_data:
     for j in line_data[i]:
         SeoulMetroLine_list.append(j+i)
 
-alpha = 1.2
-
 
 class Vertex:
     def __init__(self, c):
@@ -53,23 +49,6 @@ class Vertex:
         w = u.next[self]
         if self.d > u.d + w:
             self.d = u.d + w
-
-
-# C = input().split(',')
-# source = Vertex(SeoulMetroLine_list[0])
-source = Vertex(in_start)
-source.d = 0
-vertices = {in_start: source}
-for c in SeoulMetroLine_list[0:]:
-    if not c == in_start:
-        vertices[c] = Vertex(c)
-num_edges = len(SeoulMetro_list)
-for i in range(num_edges):
-    edge = SeoulMetro_list[i]
-    u = vertices[edge[0]]
-    v = vertices[edge[1]]
-    w = int(edge[2])
-    u.add_next(v, w)
 
 
 def build_min_heap(A):
@@ -108,6 +87,23 @@ def dijkstra(V):
         min_heap = build_min_heap(min_heap[1:])
     return sorted(S, key=lambda v: v.c)
 
+
+in_start = '목동5'
+# C = input().split(',')
+# source = Vertex(SeoulMetroLine_list[0])
+source = Vertex(in_start)
+source.d = 0
+vertices = {in_start: source}
+for c in SeoulMetroLine_list[0:]:
+    if not c == in_start:
+        vertices[c] = Vertex(c)
+num_edges = len(SeoulMetro_list)
+for i in range(num_edges):
+    edge = SeoulMetro_list[i]
+    u = vertices[edge[0]]
+    v = vertices[edge[1]]
+    w = int(edge[2])
+    u.add_next(v, w)
 
 result = dijkstra(vertices)
 print("time :", time.time() - start)
