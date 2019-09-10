@@ -40,6 +40,7 @@ for i in line_data:
 
 print(len(SeoulMetroLine_list))
 
+
 class Path:
     def __init__(self, init_d, init_p=None):
         self.p = [] if init_p is None else init_p

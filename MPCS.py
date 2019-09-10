@@ -15,8 +15,8 @@ priority_Queue = []
 distance2 = {}
 dij_path = []
 path_stack = []
-in_start = '목동'
-in_end = '고려대'
+in_start = '목동5'
+in_end = '고려대6'
 input_all_vertex = 0
 # 밑에꺼 raw_input() 이었음..
 # 역별 번호 불러옴
@@ -26,7 +26,7 @@ with open('station_number.json', 'r', encoding='UTF-8') as station_num:
 # 전체 노선도 불러옴
 # edges : all / 43, edges2 : 5 , 공항선(A), 6 / 47, edges3 : 5, A, 6, 2 / 45, edges4 :1,2,5,6,A / 45, edges5 : 5,1,6 / 47
 # ------------------------------------------------------------------
-with open('edges4.json', 'r', encoding='UTF-8') as json_file:
+with open('edges_fix.json', 'r', encoding='UTF-8') as json_file:
     json_data = json.load(json_file)
 
     # print(json_data)
@@ -149,16 +149,17 @@ print_path(in_start, in_end, distance)
 '''
 # 전체노선출력임
 
-# for i in range(len(p_distance)):
-#    print(p_distance[i][1])
+for i in range(len(p_distance)):
+    print(p_distance[i][1])
 
 cost_matrix2 = c(graph.cost_matrix)
 app_path = ap(SeoulMetro_list)
-print(app_path.out_dfs(in_start, in_end, input_vertex_1, cost_matrix2, min_cost))
+output = app_path.out_dfs(in_start, in_end, input_vertex_1, cost_matrix2, min_cost)
+print(output)
 # print sorted(distance, key=lambda t: t[1])
 
-'''
-for i in range(len(p_distance)):
-    print p_distance[i][1]
-'''
+
+# for i in range(len(p_distance)):
+#     print(p_distance[i][1])
+
 print("time :", time.time() - start)

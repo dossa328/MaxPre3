@@ -1,4 +1,43 @@
+import json
+import time
+start = time.time()
+import numpy as np
+
 maxint = pow(2, 31)
+
+with open('edges_fix.json', 'r', encoding='UTF-8') as json_file:
+    json_data = json.load(json_file)
+
+with open('line.json', 'r', encoding='UTF-8') as line_file:
+    line_data = json.load(line_file)
+
+in_start = '불광6'
+in_end = '고려대'
+
+# transline = []
+# print(line_data.keys())
+
+SeoulMetro = {}
+SeoulMetroLine = {}
+SeoulMetro_list = []
+SeoulMetroLine_list = []
+for i in json_data:
+    # SeoulMetro[i] = {}
+    if not i == "Trans":
+        for j in json_data[i]:
+            SeoulMetro_list.append([j["from"]+i, j["to"]+i, j["time"]])
+            SeoulMetro_list.append([j["to"]+i, j["from"]+i, j["time"]])
+    elif i == "Trans":
+        for j in json_data[i]:
+            SeoulMetro_list.append([j["from"], j["to"], j["time"]])
+            SeoulMetro_list.append([j["to"], j["from"], j["time"]])
+
+for i in line_data:
+    # SeoulMetroLine[i] = {}
+    for j in line_data[i]:
+        SeoulMetroLine_list.append(j+i)
+
+alpha = 1.2
 
 
 class Vertex:
@@ -16,15 +55,17 @@ class Vertex:
             self.d = u.d + w
 
 
-C = raw_input().split(',')
-source = Vertex(C[0])
+# C = input().split(',')
+# source = Vertex(SeoulMetroLine_list[0])
+source = Vertex(in_start)
 source.d = 0
-vertices = {C[0]: source}
-for c in C[1:]:
-    vertices[c] = Vertex(c)
-num_edges = input()
-for _ in range(num_edges):
-    edge = raw_input().split(',')
+vertices = {in_start: source}
+for c in SeoulMetroLine_list[0:]:
+    if not c == in_start:
+        vertices[c] = Vertex(c)
+num_edges = len(SeoulMetro_list)
+for i in range(num_edges):
+    edge = SeoulMetro_list[i]
     u = vertices[edge[0]]
     v = vertices[edge[1]]
     w = int(edge[2])
@@ -69,5 +110,13 @@ def dijkstra(V):
 
 
 result = dijkstra(vertices)
+print("time :", time.time() - start)
+# print(SeoulMetroLine_list)
+
+result_tuples = []
 for v in result:
-    print(v.d)
+    result_tuples.append((v.c, v.d))
+
+np.save('Dijkstra_result', np.array(result_tuples))
+
+
