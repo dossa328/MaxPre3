@@ -114,5 +114,4 @@ for v in result:
     result_tuples.append((v.c, v.d))
 
 np.save('Dijkstra_result', np.array(result_tuples))
-
-
+print("time :", time.time() - start)

@@ -1,8 +1,10 @@
 import json
+import time
 from copy import deepcopy as c
 from Graph import Graph
 import numpy as np
 graph = Graph(undirected=True)
+start = time.time()
 
 
 count = 0
@@ -61,10 +63,10 @@ dijkstra_result = np.load('Dijkstra_result.npy')
 dijkstra_dict = {}
 for r in dijkstra_result:
     dijkstra_dict[r[0]] = r[1]
-alpha = 1.2
+alpha = 1.1
 threshold = float(dijkstra_dict[in_end]) * alpha
-
 output = find_all_paths(graph.cost_matrix, in_start, in_end)
 for p in output:
-    print(p[1])
+    print(p[0])
 print('Count:', len(output))
+print("time :", time.time() - start)
