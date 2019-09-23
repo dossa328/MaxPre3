@@ -55,7 +55,7 @@ def find_all_paths(graph2, start, end, weight=0, path=[[], 0]):
 #          'F': {'C': 6}}
 
 
-#print(find_all_paths(graph, 'A', 'D'))
+# print(find_all_paths(graph, 'A', 'D'))
 # print(find_shortest_path(graph.cost_matrix, in_start, in_end))
 in_start = '목동5'
 in_end = '고려대6'
@@ -63,10 +63,13 @@ dijkstra_result = np.load('Dijkstra_result.npy')
 dijkstra_dict = {}
 for r in dijkstra_result:
     dijkstra_dict[r[0]] = r[1]
-alpha = 1.1
+alpha = 1.0
 threshold = float(dijkstra_dict[in_end]) * alpha
 output = find_all_paths(graph.cost_matrix, in_start, in_end)
+candidate_paths = []
 for p in output:
-    print(p[0])
+    print(p)
+    candidate_paths.append(p)
+
 print('Count:', len(output))
 print("time :", time.time() - start)

@@ -11,7 +11,7 @@ with open('edges_fix.json', 'r', encoding='UTF-8') as json_file:
 with open('line.json', 'r', encoding='UTF-8') as line_file:
     line_data = json.load(line_file)
 
-in_start = '목동5'
+in_start = '대화3'
 alpha = 1.1
 
 # transline = []
@@ -46,9 +46,12 @@ class Path:
         self.d = init_d
 
     def extended(self, new_c, new_w):
+        # if new_c not in self.p:
         p = self.p + [new_c]
         d = self.d + new_w
         return Path(d, p)
+        # else:
+        #     return self
 
     def __str__(self):
         s = "Cost:" + str(self.d) + "/ Path: "
@@ -73,17 +76,18 @@ class Vertex:
 
     def relax(self, u):
         w = u.next[self]
+        # cand_paths는 후보 paths 군을 저장한다.
         cand_paths = []
+        p_min = self.p_min()
         for p in u.P:
             cand_paths.append(p.extended(self.c, w))
         for cand_path in cand_paths:
-            p_min = self.p_min()
             if p_min.d * alpha > cand_path.d:
                 self.P.append(cand_path)
                 if p_min.d > cand_path.d:
-                    for p in self.P:
-                        if p.d > alpha * cand_path.d:
-                            self.P.remove(p)
+                    for self_p in self.P:
+                        if self_p.d > alpha * cand_path.d:
+                            self.P.remove(self_p)
 
 
 # C = input().split(',')
@@ -121,12 +125,12 @@ print("time :", time.time() - start)
 # print(SeoulMetroLine_list)
 
 for v in result:
-    # if v.c == '고려대6':
-    if True:
+    if v.c == '고려대6':
+    # if True:
         for p in v.P:
             print(p.d, "->", p)
         print(v.c, len(v.P))
-        # for p in v.P:
-        #     print(p)
+        for p in v.P:
+            print(p)
 
 
