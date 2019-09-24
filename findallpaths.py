@@ -6,12 +6,59 @@ import numpy as np
 graph = Graph(undirected=True)
 start = time.time()
 
-
-count = 0
+with open('trans.json', 'r', encoding='UTF-8') as json_file:
+    trans_data = json.load(json_file)
 with open('edges_fix.json', 'r', encoding='UTF-8') as json_file:
     json_data = json.load(json_file)
+with open('line.json', 'r', encoding='UTF-8') as line_file:
+    line_data = json.load(line_file)
+
+# 무언가의 p가 콜될경우
+# def split(p):
+#     pass
+
+SeoulMetroLine_translist = {}
+for i in line_data:
+    for j in line_data[i]:
+        SeoulMetroLine_translist[j+i] = i
+        # SeoulMetroLine_list2.append([j+i, i])
 
 
+# split된 path 에 대해서 score를 계산한다.
+def score_sub(p_sub):
+    cost = 0
+    for i in range(len(p_sub)):
+        cost = cost + (pow(0.5, i)) * cal_path_weight(i, p_sub)
+    return cost
+
+
+def cal_path_weight(idx, path):
+    sum_path = 0
+    for i in range(idx, len(path)-1):
+        sum_path = sum_path + graph.get_cost(path[i], path[i+1])
+    return sum_path
+
+
+def split(path):
+    paths = []
+    out_cost = 0
+    sv = []
+    for i in range(len(path)):
+        sv.append(path[i])
+        # if i in trans_data["trans"] or i == in_end:
+        if path[i] == in_end:
+            out_cost = out_cost + score_sub(sv)
+            # paths.append(score_sub(sv))
+            sv = []
+
+        elif not SeoulMetroLine_translist[path[i]] == SeoulMetroLine_translist[path[i+1]]:
+            out_cost = out_cost + score_sub(sv)
+            # paths.append(score_sub(sv))
+            sv = []
+    return out_cost
+
+
+count = 0
 newpaths2 = {}
 SeoulMetro = {}
 SeoulMetroLine = {}
@@ -46,15 +93,6 @@ def find_all_paths(graph2, start, end, weight=0, path=[[], 0]):
     return paths
 
 
-#
-# graph = {'A': {'B': 4, 'C': 5},
-#          'B': {'C': 6, 'D': 5},
-#          'C': {'D': 7},
-#          'D': {'C': 2},
-#          'E': {'F': 8},
-#          'F': {'C': 6}}
-
-
 # print(find_all_paths(graph, 'A', 'D'))
 # print(find_shortest_path(graph.cost_matrix, in_start, in_end))
 in_start = '목동5'
@@ -63,13 +101,22 @@ dijkstra_result = np.load('Dijkstra_result.npy')
 dijkstra_dict = {}
 for r in dijkstra_result:
     dijkstra_dict[r[0]] = r[1]
-alpha = 1.0
+alpha = 1.2
 threshold = float(dijkstra_dict[in_end]) * alpha
 output = find_all_paths(graph.cost_matrix, in_start, in_end)
 candidate_paths = []
+saved = []
 for p in output:
-    print(p)
+    # saved.append(split(p[0]))
+    path_cost = split(p[0])
+    p.append([path_cost])
     candidate_paths.append(p)
+
+candidate_paths2 = sorted(candidate_paths, key=lambda cp: cp[2])
+
+for i in candidate_paths2:
+    print(i)
+
 
 print('Count:', len(output))
 print("time :", time.time() - start)

@@ -149,6 +149,9 @@ print_path(in_start, in_end, distance)
 '''
 # 전체노선출력임
 
+d = graph.get_cost("목동", "고려대")
+print(d)
+
 for i in range(len(p_distance)):
     print(p_distance[i][1])
 

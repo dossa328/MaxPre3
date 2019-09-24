@@ -21,6 +21,7 @@ SeoulMetro = {}
 SeoulMetroLine = {}
 SeoulMetro_list = []
 SeoulMetroLine_list = []
+ssave = []
 for i in json_data:
     # SeoulMetro[i] = {}
     if not i == "Trans":
@@ -31,7 +32,12 @@ for i in json_data:
         for j in json_data[i]:
             SeoulMetro_list.append([j["from"], j["to"], j["time"]])
             SeoulMetro_list.append([j["to"], j["from"], j["time"]])
+            ssave.append(j["from"])
+            ssave.append(j["to"])
 
+kk = list(set(ssave))
+print(kk)
+print(len(kk))
 for i in line_data:
     # SeoulMetroLine[i] = {}
     for j in line_data[i]:
