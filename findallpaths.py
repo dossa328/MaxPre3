@@ -13,10 +13,6 @@ with open('edges_fix.json', 'r', encoding='UTF-8') as json_file:
 with open('line.json', 'r', encoding='UTF-8') as line_file:
     line_data = json.load(line_file)
 
-# 무언가의 p가 콜될경우
-# def split(p):
-#     pass
-
 SeoulMetroLine_translist = {}
 for i in line_data:
     for j in line_data[i]:
@@ -28,7 +24,10 @@ for i in line_data:
 def score_sub(p_sub):
     cost = 0
     for i in range(len(p_sub)):
-        cost = cost + (pow(0.5, i)) * cal_path_weight(i, p_sub)
+        if p_sub[i] in trans_data["trans"]:
+            cost = cost + (pow(0.2, i)) * cal_path_weight(i, p_sub)
+        else:
+            cost = cost + (pow(0.5, i)) * cal_path_weight(i, p_sub)
     return cost
 
 
@@ -95,8 +94,8 @@ def find_all_paths(graph2, start, end, weight=0, path=[[], 0]):
 
 # print(find_all_paths(graph, 'A', 'D'))
 # print(find_shortest_path(graph.cost_matrix, in_start, in_end))
-in_start = '목동5'
-in_end = '고려대6'
+in_start = '홍대입구2'
+in_end = '수원1'
 dijkstra_result = np.load('Dijkstra_result.npy')
 dijkstra_dict = {}
 for r in dijkstra_result:
@@ -109,7 +108,7 @@ saved = []
 for p in output:
     # saved.append(split(p[0]))
     path_cost = split(p[0])
-    p.append([path_cost])
+    p.append([(pow(p[1], -1)) * path_cost])
     candidate_paths.append(p)
 
 candidate_paths2 = sorted(candidate_paths, key=lambda cp: cp[2])
