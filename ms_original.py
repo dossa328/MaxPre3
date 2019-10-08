@@ -88,7 +88,7 @@ def dijkstra(V):
     return sorted(S, key=lambda v: v.c)
 
 
-in_start = '홍대입구2'
+in_start = '목동5'
 # C = input().split(',')
 # source = Vertex(SeoulMetroLine_list[0])
 source = Vertex(in_start)

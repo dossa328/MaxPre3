@@ -14,6 +14,7 @@ with open('line.json', 'r', encoding='UTF-8') as line_file:
     line_data = json.load(line_file)
 
 SeoulMetroLine_translist = {}
+
 for i in line_data:
     for j in line_data[i]:
         SeoulMetroLine_translist[j+i] = i
@@ -38,6 +39,28 @@ def cal_path_weight(idx, path):
     return sum_path
 
 
+def score_sub2(p_sub):
+    cost = 0
+    # for i in range(len(p_sub)):
+    cost = cal_path_weight2(p_sub)
+    #
+    # if p_sub[i] in trans_data["trans"]:
+    #     cost = cost + (pow(0.2, i)) * cal_path_weight2(i, p_sub)
+    # else:
+    #     cost = cost + (pow(0.5, i)) * cal_path_weight2(i, p_sub)
+    return cost
+
+
+def cal_path_weight2(path):
+    p_acc = 1
+    for i in range(0, len(path)):
+        if path[i] in trans_data["trans"]:
+            p_acc = p_acc + ((((1 - p_acc) * i) * 0.2) + p_acc)
+        else:
+            p_acc = p_acc + ((((1 - p_acc) * i) * 0.5) + p_acc)
+    return p_acc
+
+
 def split(path):
     paths = []
     out_cost = 0
@@ -46,12 +69,12 @@ def split(path):
         sv.append(path[i])
         # if i in trans_data["trans"] or i == in_end:
         if path[i] == in_end:
-            out_cost = out_cost + score_sub(sv)
+            out_cost = out_cost + score_sub2(sv)
             # paths.append(score_sub(sv))
             sv = []
 
         elif not SeoulMetroLine_translist[path[i]] == SeoulMetroLine_translist[path[i+1]]:
-            out_cost = out_cost + score_sub(sv)
+            out_cost = out_cost + score_sub2(sv)
             # paths.append(score_sub(sv))
             sv = []
     return out_cost
@@ -94,13 +117,13 @@ def find_all_paths(graph2, start, end, weight=0, path=[[], 0]):
 
 # print(find_all_paths(graph, 'A', 'D'))
 # print(find_shortest_path(graph.cost_matrix, in_start, in_end))
-in_start = '홍대입구2'
-in_end = '수원1'
+in_start = '목동5'
+in_end = '고려대6'
 dijkstra_result = np.load('Dijkstra_result.npy')
 dijkstra_dict = {}
 for r in dijkstra_result:
     dijkstra_dict[r[0]] = r[1]
-alpha = 1.2
+alpha = 1.1
 threshold = float(dijkstra_dict[in_end]) * alpha
 output = find_all_paths(graph.cost_matrix, in_start, in_end)
 candidate_paths = []
@@ -115,7 +138,6 @@ candidate_paths2 = sorted(candidate_paths, key=lambda cp: cp[2])
 
 for i in candidate_paths2:
     print(i)
-
 
 print('Count:', len(output))
 print("time :", time.time() - start)
