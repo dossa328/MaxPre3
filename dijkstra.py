@@ -4,7 +4,7 @@ import numpy as np
 start = time.time()
 
 
-def set(input_start_v):
+def cal_dists(input_start_v):
     maxint = pow(2, 31)
 
     with open('edges_fix.json', 'r', encoding='UTF-8') as json_file:
@@ -107,7 +107,7 @@ def set(input_start_v):
         u.add_next(v, w)
 
     result = dijkstra(vertices)
-    print("time :", time.time() - start)
+    # print("time :", time.time() - start)
     # print(SeoulMetroLine_list)
 
     result_tuples = []
@@ -115,4 +115,4 @@ def set(input_start_v):
         result_tuples.append((v.c, v.d))
 
     np.save('Dijkstra_result', np.array(result_tuples))
-    print("time :", time.time() - start)
+    # print("time :", time.time() - start)

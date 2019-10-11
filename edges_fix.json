@@ -728,7 +728,6 @@
     {"from":"워터파크","to":"용유","distance":1200,"time":3}
   ],
   "Trans":[
-    {"from":"서울1", "to":"서울4","distance":500,"time":133},
     {"from": "수원1", "to": "수원B", "distance": 999, "time": 3},
     {"from": "금정1", "to": "금정4", "distance": 999, "time": 3},
     {"from": "가산디지털단지1", "to": "가산디지털단지7", "distance": 999, "time": 3},

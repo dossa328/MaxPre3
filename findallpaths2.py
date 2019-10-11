@@ -23,48 +23,28 @@ def ppp(input_start, input_end, input_alpha):
             SeoulMetroLine_translist[j+i] = i
             # SeoulMetroLine_list2.append([j+i, i])
 
+    def score_sub2(p_sub):
+        cost2 = score_sub(p_sub)
+        return cost2
 
-    # split된 path 에 대해서 score를 계산한다.
     def score_sub(p_sub):
         cost = 0
-        p_acc = 0.2 if p_sub[0] in trans_data["trans"] else 0.5
+        p_remaining = 1
 
         for i in range(len(p_sub)):
-            if p_sub[i] in trans_data["trans"]:
-                cost = cost + 0.2 * cal_path_weight(i, p_sub)
-            else:
-                cost = cost + 0.5 * cal_path_weight(i, p_sub)
-        return cost
 
+            p_i = 0.2 if p_sub[i] in trans_data["trans"] else 0.5
+            p_i = p_remaining * p_i
+            p_remaining = p_remaining - p_i
+
+            cost = cost + p_i * cal_path_weight(i, p_sub)
+        return cost
 
     def cal_path_weight(idx, path):
         sum_path = 0
         for i in range(idx, len(path)-1):
             sum_path = sum_path + graph.get_cost(path[i], path[i+1])
         return sum_path
-
-
-    def score_sub2(p_sub):
-        cost = 0
-        # for i in range(len(p_sub)):
-        cost = cal_path_weight2(p_sub)
-        #
-        # if p_sub[i] in trans_data["trans"]:
-        #     cost = cost + (pow(0.2, i)) * cal_path_weight2(i, p_sub)
-        # else:
-        #     cost = cost + (pow(0.5, i)) * cal_path_weight2(i, p_sub)
-        return cost
-
-
-    def cal_path_weight2(path):
-        p_acc = 1
-        for i in range(0, len(path)):
-            if path[i] in trans_data["trans"]:
-                p_acc = p_acc + ((((1 - p_acc) * i) * 0.2) + p_acc)
-            else:
-                p_acc = p_acc + ((((1 - p_acc) * i) * 0.5) + p_acc)
-        return p_acc
-
 
     def split(path):
         paths = []
@@ -74,12 +54,12 @@ def ppp(input_start, input_end, input_alpha):
             sv.append(path[i])
             # if i in trans_data["trans"] or i == in_end:
             if path[i] == in_end:
-                out_cost = out_cost + score_sub(sv)
+                out_cost = out_cost + score_sub2(sv)
                 # paths.append(score_sub(sv))
                 sv = []
 
             elif not SeoulMetroLine_translist[path[i]] == SeoulMetroLine_translist[path[i+1]]:
-                out_cost = out_cost + score_sub(sv)
+                out_cost = out_cost + score_sub2(sv)
                 # paths.append(score_sub(sv))
                 sv = []
         return out_cost
@@ -132,11 +112,11 @@ def ppp(input_start, input_end, input_alpha):
     threshold = float(dijkstra_dict[in_end]) * alpha
     output = find_all_paths(graph.cost_matrix, in_start, in_end)
     candidate_paths = []
-    saved = []
     for p in output:
         # saved.append(split(p[0]))
         path_cost = split(p[0])
-        p.append([(pow(p[1], -1)) * path_cost])
+        # p.append([(pow(p[1], -1)) * path_cost])
+        p.append(path_cost)
         candidate_paths.append(p)
 
     candidate_paths2 = sorted(candidate_paths, key=lambda cp: cp[2])
