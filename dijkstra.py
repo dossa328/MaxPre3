@@ -13,14 +13,8 @@ def cal_dists(input_start_v):
     with open('line.json', 'r', encoding='UTF-8') as line_file:
         line_data = json.load(line_file)
 
-    # transline = []
-    # print(line_data.keys())
-
-    SeoulMetro = {}
-    SeoulMetroLine = {}
     SeoulMetro_list = []
     SeoulMetroLine_list = []
-    SeoulMetroLine_list2 = []
     for i in json_data:
         # SeoulMetro[i] = {}
         if not i == "Trans":
@@ -36,7 +30,6 @@ def cal_dists(input_start_v):
         for j in line_data[i]:
             SeoulMetroLine_list.append(j+i)
 
-
     class Vertex:
         def __init__(self, c):
             self.c = c
@@ -50,7 +43,6 @@ def cal_dists(input_start_v):
             w = u.next[self]
             if self.d > u.d + w:
                 self.d = u.d + w
-
 
     def build_min_heap(A):
         def min_heapify(A, i):
@@ -75,7 +67,6 @@ def cal_dists(input_start_v):
             A = min_heapify(A, i)
         return A
 
-
     def dijkstra(V):
         S = []
         min_heap = build_min_heap(list(V.values()))
@@ -87,7 +78,6 @@ def cal_dists(input_start_v):
                 v.relax(u)
             min_heap = build_min_heap(min_heap[1:])
         return sorted(S, key=lambda v: v.c)
-
 
     in_start = input_start_v
     # C = input().split(',')

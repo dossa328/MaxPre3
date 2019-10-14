@@ -1,22 +1,14 @@
 import json
 import random
 import threading
-from threading import Thread
-
 import alpha_pruning
-import dijkstra
-import numpy as np
-from Graph import Graph
-# ws_choi
-import findallpaths2
-# hd_jung
-import signal
-import time
-
 from Metro import Metro
 
 with open('line.json', 'r', encoding='UTF-8') as line_file:
     line_data = json.load(line_file)
+
+with open('input_data.json', 'r', encoding='UTF-8') as data_file:
+    input_data = json.load(data_file)
 
 data_set = []
 
@@ -37,24 +29,30 @@ def rand_start_end(_data_set):
 
 
 alpha = 1.1
-time_out = 3
-
 metro = Metro()
 
-for i in range(10000):
-    ran_start, ran_end = rand_start_end(data_set)
+for j in range(888):
+    alpha_pruning.get_result(metro, input_data[str(j)]['from'], input_data[str(j)]['to'], alpha)
 
-    done_counting = threading.Event()
-    t = threading.Thread(target=alpha_pruning.get_result, args=(metro, ran_start, ran_end, alpha))
-    t.setDaemon(True)
 
-    t.start()
-
-    t.join(time_out)
-    done_counting.wait(time_out)
-    if t.is_alive():
-        print(ran_start, ran_end)
-        pass
-
-    else:
-        pass
+#
+# time_out = 3
+# for i in range(10000):
+#     ran_start, ran_end = rand_start_end(data_set)
+#
+#     done_counting = threading.Event()
+#     t = threading.Thread(target=alpha_pruning.get_result, args=(metro, ran_start, ran_end, alpha))
+#     t.setDaemon(True)
+#
+#     t.start()
+#
+#     t.join(time_out)
+#     done_counting.wait(time_out)
+#     # if runtime out (difficult problem)
+#     if t.is_alive():
+#         # print(ran_start, ran_end)
+#         pass
+#     # if runtime out (easy problem)
+#     else:
+#         print(ran_start, ran_end)
+#         # pass
