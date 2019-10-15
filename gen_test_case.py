@@ -2,6 +2,7 @@ import json
 import random
 import threading
 import alpha_pruning
+import cal_dijkstra_cost
 from Metro import Metro
 
 with open('line.json', 'r', encoding='UTF-8') as line_file:
@@ -33,7 +34,7 @@ metro = Metro()
 
 for j in range(888):
     alpha_pruning.get_result(metro, input_data[str(j)]['from'], input_data[str(j)]['to'], alpha)
-
+    cal_dijkstra_cost.dijkstra_get_cost(metro, input_data[str(j)]['from'], input_data[str(j)]['to'])
 
 #
 # time_out = 3

@@ -1,11 +1,9 @@
-import time
-from copy import deepcopy as c
 import numpy as np
 
-import dijkstra
 
+def dijkstra_get_cost(_metro, in_start, in_end):
 
-def get_result(_metro, in_start, in_end, in_alpha):
+    # dijkstra_dict = {destination: dist for destination, paths, dist in dijkstra_result}
 
     def score_sub2(p_sub, _metro):
         cost = cal_path_weight2(p_sub, _metro)
@@ -65,37 +63,5 @@ def get_result(_metro, in_start, in_end, in_alpha):
                 sv = []
         return out_cost
 
-    def find_all_paths(graph2, start, end, _threshold, weight=0,  path=[[], 0]):
-        path[0], path[1] = path[0] + [start], path[1] + weight
-        if start == end:
-            return [path]
-        paths = []
-        for node, w in graph2[start].items():
-            if node not in path[0] and path[1] + w <= _threshold:
-                # if node not in deny:
-                #     deny.append(node)
-                newpaths = find_all_paths(graph2, node, end, _threshold, w, c(path))
-                for newpath in newpaths:
-                    paths.append(newpath)
-        # print("add new paths : ", paths)
-        return paths
-
-    dijkstra.cal_dists(in_start, in_end)
-    dijkstra_result = np.load('Dijkstra_result.npy', allow_pickle=True)
-    dijkstra_dict = {destination: dist for destination, dist in dijkstra_result}
-
-    threshold = float(dijkstra_dict[in_end]) * in_alpha
-
-    candidate_paths = find_all_paths(_metro.graph.cost_matrix, in_start, in_end, threshold)
-
-    output = []
-    for p in candidate_paths:
-        # saved.append(split(p[0]))
-        path_cost = split(p[0], _metro)
-        # p.append([(pow(p[1], -1)) * path_cost])
-        p.append(path_cost)
-        output.append(p)
-
-    output = sorted(output, key=lambda cp: -cp[2])
-    print("Allpath_cal_result : ", output[0])
-    # return sorted(output, key=lambda cp: -cp[2])
+    dijkstra_result = np.load('Dijkstra_result_for_dijk_score.npy', allow_pickle=True)
+    print("Dijkstra_cal_result : ", dijkstra_result[0][2], "::", split(dijkstra_result[0][2], _metro))

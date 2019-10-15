@@ -1,133 +1,111 @@
 import json
-import time
-from copy import deepcopy as c
-from Graph import Graph
-import numpy as np
 
+maxint = pow(2, 31)
 
-graph = Graph(undirected=True)
-start = time.time()
-
-with open('trans.json', 'r', encoding='UTF-8') as json_file:
-    trans_data = json.load(json_file)
-with open('edges_fix.json', 'r', encoding='UTF-8') as json_file:
+with open('edges.json', 'r', encoding='UTF-8') as json_file:
     json_data = json.load(json_file)
+
 with open('line.json', 'r', encoding='UTF-8') as line_file:
     line_data = json.load(line_file)
 
-SeoulMetroLine_translist = {}
+in_start = '목동'
+in_end = '고려대'
 
-for i in line_data:
-    for j in line_data[i]:
-        SeoulMetroLine_translist[j+i] = i
-        # SeoulMetroLine_list2.append([j+i, i])
-
-
-# split된 path 에 대해서 score를 계산한다.
-# def score_sub(p_sub):
-#     cost = 0
-#     for i in range(len(p_sub)):
-#         if p_sub[i] in trans_data["trans"]:
-#             cost = cost + (pow(0.2, i)) * cal_path_weight(i, p_sub)
-#         else:
-#             cost = cost + (pow(0.5, i)) * cal_path_weight(i, p_sub)
-#     return cost
-
-# def cal_path_weight(idx, path):
-#     sum_path = 0
-#     for i in range(idx, len(path)-1):
-#         sum_path = sum_path + graph.get_cost(path[i], path[i+1])
-#     return sum_path
-
-def score_sub2(p_sub):
-    cost = 0
-    cost = cal_path_weight2(p_sub)
-    return cost
-
-def cal_path_weight2(path):
-    p_acc = 1
-    for i in range(0, len(path)):
-        if path[i] in trans_data["trans"]:
-            p_acc = p_acc + ((((1 - p_acc) * i) * 0.2) + p_acc)
-        else:
-            p_acc = p_acc + ((((1 - p_acc) * i) * 0.5) + p_acc)
-    return p_acc
-
-def split(path):
-    paths = []
-    out_cost = 0
-    sv = []
-    for i in range(len(path)):
-        sv.append(path[i])
-        # if i in trans_data["trans"] or i == in_end:
-        if path[i] == in_end:
-            out_cost = out_cost + score_sub2(sv)
-            # paths.append(score_sub(sv))
-            sv = []
-
-        elif not SeoulMetroLine_translist[path[i]] == SeoulMetroLine_translist[path[i+1]]:
-            out_cost = out_cost + score_sub2(sv)
-            # paths.append(score_sub(sv))
-            sv = []
-    return out_cost
-
-count = 0
-newpaths2 = {}
 SeoulMetro = {}
 SeoulMetroLine = {}
 SeoulMetro_list = []
 SeoulMetroLine_list = []
 for i in json_data:
     # SeoulMetro[i] = {}
-    if not i == "Trans":
-        for j in json_data[i]:
-            SeoulMetro_list.append([j["from"]+i, j["to"]+i, j["time"]])
-            SeoulMetro_list.append([j["to"]+i, j["from"]+i, j["time"]])
-    elif i == "Trans":
-        for j in json_data[i]:
-            SeoulMetro_list.append([j["from"], j["to"], j["time"]])
-            SeoulMetro_list.append([j["to"], j["from"], j["time"]])
+    for j in json_data[i]:
+        SeoulMetro_list.append([j["from"], j["to"], j["time"]])
+        SeoulMetro_list.append([j["to"], j["from"], j["time"]])
 
-for i in SeoulMetro_list:
-    graph.insert(i[0], i[1], i[2])
+for i in line_data:
+    # SeoulMetroLine[i] = {}
+    for j in line_data[i]:
+        SeoulMetroLine_list.append(j)
 
 
-def find_all_paths(graph2, start, end, weight=0, path=[[], 0]):
-    path[0], path[1] = path[0]+[start], path[1]+weight
-    if start == end:
-        return [path]
-    paths = []
-    for node, w in graph2[start].items():
-        if node not in path[0] and path[1]+w <= threshold:
-            newpaths = find_all_paths(graph2, node, end, w, c(path))
-            for newpath in newpaths:
-                paths.append(newpath)
-    return paths
+class Vertex:
+    def __init__(self, c):
+        self.c = c
+        self.d = maxint
+        self.pastcost = []
+        self.path = []
+        self.next = {}
+
+    def add_next(self, next_v, w):
+        self.next[next_v] = w
+
+    def relax(self, u):
+        w = u.next[self]
+        if self.d > u.d + w:
+            self.d = u.d + w
+            self.pastcost.append(self.d)
+            if not u.path:
+                self.path.append(u.c)
+            if u.path:
+                self.path.extend(u.path)
+                self.path.append(u.c)
 
 
-# print(find_all_paths(graph, 'A', 'D'))
-# print(find_shortest_path(graph.cost_matrix, in_start, in_end))
-in_start = '목동5'
-in_end = '곤지암KK'
-dijkstra_result = np.load('Dijkstra_result.npy')
-dijkstra_dict = {}
-for r in dijkstra_result:
-    dijkstra_dict[r[0]] = r[1]
-alpha = 1.1
-threshold = float(dijkstra_dict[in_end]) * alpha
-output = find_all_paths(graph.cost_matrix, in_start, in_end)
-candidate_paths = []
-saved = []
-for p in output:
-    # saved.append(split(p[0]))
-    path_cost = split(p[0])
-    p.append([(pow(p[1], -1)) * path_cost])
-    candidate_paths.append(p)
+# C = input().split(',')
+# source = Vertex(SeoulMetroLine_list[0])
+source = Vertex(in_start)
+source.d = 0
+vertices = {in_start: source}
+for c in SeoulMetroLine_list[0:]:
+    if not c == in_start:
+        vertices[c] = Vertex(c)
+num_edges = len(SeoulMetro_list)
+for i in range(num_edges):
+    edge = SeoulMetro_list[i]
+    u = vertices[edge[0]]
+    v = vertices[edge[1]]
+    w = int(edge[2])
+    u.add_next(v, w)
 
-candidate_paths2 = sorted(candidate_paths, key=lambda cp: cp[2])
 
-for i in candidate_paths2:
-    print(i)
+def build_min_heap(A):
+    def min_heapify(A, i):
+        l = 2 * i + 1
+        r = 2 * i + 2
+        size = len(A)
+        if l < size and A[l].d < A[i].d:
+            smallest = l
+        else:
+            smallest = i
+        if r < size and A[r].d < A[smallest].d:
+            smallest = r
+        if smallest != i:
+            temp = A[i]
+            A[i] = A[smallest]
+            A[smallest] = temp
+            return min_heapify(A, smallest)
+        else:
+            return A
 
-print('Count:', len(output))
-print("time :", time.time() - start)
+    for i in range(len(A) // 2 - 1, -1, -1):
+        A = min_heapify(A, i)
+    return A
+
+
+def dijkstra(V):
+    S = []
+    min_heap = build_min_heap(list(V.values()))
+    while len(min_heap) > 0:
+        u = min_heap[0]
+        S.append(u)
+        v_list = sorted(u.next.keys(), key=lambda v: v.c)
+        for v in v_list:
+            v.relax(u)
+        min_heap = build_min_heap(min_heap[1:])
+    return sorted(S, key=lambda v: v.c)
+
+
+result = dijkstra(vertices)
+# print(SeoulMetroLine_list)
+
+for v in result:
+    print(v.c, ":", v.d, "past : ", v.pastcost, "path : ", v.path)
