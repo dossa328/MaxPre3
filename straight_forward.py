@@ -71,6 +71,7 @@ def get_result(_metro, in_start, in_end, in_alpha):
             return [path]
         paths = []
         for node, w in graph2[start].items():
+            # if - removed [" and path[1] + w <= _threshold: "]
             if node not in path[0] and path[1] + w <= _threshold:
                 # if node not in deny:
                 #     deny.append(node)

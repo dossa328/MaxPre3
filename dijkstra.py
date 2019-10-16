@@ -4,8 +4,7 @@ import numpy as np
 start = time.time()
 
 
-def cal_dists(input_start_v, input_end_v):
-    paths = []
+def cal_dists(input_start_v):
     maxint = pow(2, 31)
 
     with open('edges_fix.json', 'r', encoding='UTF-8') as json_file:
@@ -14,8 +13,14 @@ def cal_dists(input_start_v, input_end_v):
     with open('line.json', 'r', encoding='UTF-8') as line_file:
         line_data = json.load(line_file)
 
+    # transline = []
+    # print(line_data.keys())
+
+    SeoulMetro = {}
+    SeoulMetroLine = {}
     SeoulMetro_list = []
     SeoulMetroLine_list = []
+    SeoulMetroLine_list2 = []
     for i in json_data:
         # SeoulMetro[i] = {}
         if not i == "Trans":
@@ -31,12 +36,11 @@ def cal_dists(input_start_v, input_end_v):
         for j in line_data[i]:
             SeoulMetroLine_list.append(j+i)
 
+
     class Vertex:
         def __init__(self, c):
             self.c = c
             self.d = maxint
-            # path 추가
-            self.path = []
             self.next = {}
 
         def add_next(self, next_v, w):
@@ -46,12 +50,6 @@ def cal_dists(input_start_v, input_end_v):
             w = u.next[self]
             if self.d > u.d + w:
                 self.d = u.d + w
-                # 여기 하위 추가
-                if not u.path:
-                    self.path.append(u.c)
-                if u.path:
-                    self.path.extend(u.path)
-                    self.path.append(u.c)
 
     def build_min_heap(A):
         def min_heapify(A, i):
@@ -110,41 +108,8 @@ def cal_dists(input_start_v, input_end_v):
     # print(SeoulMetroLine_list)
 
     result_tuples = []
-    result_tuples_for_dijk_score = []
     for v in result:
-        # if v.path in paths:
-        #     pass
-        # else:
-        paths.append(v.path)
-
-    for v in result:
-        for w in paths:
-            if not w:
-                pass
-            elif v.c == w[-1]:
-                if w in result_tuples:
-                    pass
-                elif v.c == w[0]:
-                    pass
-
-                if w[-1] == input_end_v:
-                    result_tuples_for_dijk_score.append((v.c, v.d, w))
         result_tuples.append((v.c, v.d))
-        # else:
-        #     print(v.c, w[-1])
 
-    # for v in result:
-    #     print(v.path)
-    aa = '잠실새내2'
-    aaa = '사평9'
-    aaaa = "한양대2"
-    for k in result_tuples:
-        if aaa in k[0]:
-            print("사평9 yes")
-        if aa in k[0]:
-            print("잠실새내2 yes")
-        if aaaa in k[0]:
-            print("한양대2 yes")
     np.save('Dijkstra_result', np.array(result_tuples))
-    np.save('Dijkstra_result_for_dijk_score', np.array(result_tuples_for_dijk_score))
     # print("time :", time.time() - start)
