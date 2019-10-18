@@ -2,14 +2,19 @@ import json
 import random
 import threading
 import alpha_pruning
+import alpha_pruning2
 import straight_forward
+import dijkstra_distributer
 import time
+import openpyxl
 from Metro import Metro
 
+with open('trans.json', 'r', encoding='UTF-8') as json_file:
+    trans_data = json.load(json_file)
 with open('line.json', 'r', encoding='UTF-8') as line_file:
     line_data = json.load(line_file)
 
-with open('input_data.json', 'r', encoding='UTF-8') as data_file:
+with open('input_data2.json', 'r', encoding='UTF-8') as data_file:
     input_data = json.load(data_file)
 
 data_set = []
@@ -30,30 +35,86 @@ def rand_start_end(_data_set):
     return _start, _end
 
 
-alpha_for_alpha_pruning = 1.1
+alpha_for_alpha_pruning = 1.0
 alpha_for_straight_forward = 1.0
 metro = Metro()
 alpha_pruning_result = []
 alpha_pruning_result_avg = 0
 straight_forward_result = []
 straight_forward_result_avg = 0
-for j in range(len(input_data)):
-    start_time = time.time()
-    alpha_pruning_result.append(alpha_pruning.get_result(metro, input_data[str(j)]['from'], input_data[str(j)]['to'], alpha_for_alpha_pruning))
-    alpha_pruning_result_avg = alpha_pruning_result_avg + alpha_pruning_result[j][2]
 
+wb = openpyxl.load_workbook('result2.xlsx')
+sheet = wb['Sheet1']
+
+# for k in range(1, 11):
+start_time = time.time()
+reresult = []
+path_start_end_pairs = {}
+compare_paths_transdata = []
+a = 0
+for j in range(0, len(input_data)):
+    print(a)
+    # reresult.extend(dijkstra_distributer.cal_dists(input_data[str(j)]['from'], input_data[str(j)]['to']))
+    # reresult.extend(alpha_pruning.get_result(metro, input_data[str(j)]['from'], input_data[str(j)]['to'], alpha_for_alpha_pruning))
+    # reresult.append(alpha_pruning2.get_result(metro, input_data[str(j)]['from'], input_data[str(j)]['to'], alpha_for_alpha_pruning)[0])
+    reresult.append(alpha_pruning2.get_result(metro, input_data[str(j)]['from'], input_data[str(j)]['to'], alpha_for_alpha_pruning)[0])
+    a = a + 1
+
+
+# set_of_reresult = []
+# for d in range(len(reresult)):
+#     set_of_reresult.append(reresult[0])
+index = 1
+for v in reresult:
+    compare_paths_transdata = []
+    # compare_paths_transdata = list(set(v).intersection(trans_data["trans"]))
+    for v2 in trans_data["trans"]:
+        if v2 in v:
+            compare_paths_transdata.append(v2)
+    len_compare_paths_transdata = len(compare_paths_transdata)
+    # if v[0] in compare_paths_transdata and v[0] in trans_data["trans"]:
+    #     len_compare_paths_transdata = len_compare_paths_transdata - 1
+    # if v[-1] in compare_paths_transdata and v[-1] in trans_data["trans"]:
+    #     len_compare_paths_transdata = len_compare_paths_transdata - 1
+
+    path_start_end_pairs[len_compare_paths_transdata] = (v[0], v[-1])
+    print(len_compare_paths_transdata,",",v[0],",",v[-1])
+    print(v)
+    sheet.cell(row=index, column=1, value=len_compare_paths_transdata)
+    sheet.cell(row=index, column=2, value=v[0])
+    sheet.cell(row=index, column=3, value=v[-1])
+    # sheet.cell(row=index, column=4, value=v)
+    # sheet.cell(row=index, column=4).value = v
+    # for r in range(0, len(v)):
+    #     sheet.cell(row=index, column=4).value=v[r]
+
+    index = index + 1
+
+
+
+    # alpha_pruning_result.append(alpha_pruning.get_result(metro, input_data[str(j)]['from'], input_data[str(j)]['to'], alpha_for_alpha_pruning))
+    # print(alpha_pruning.get_result(metro, input_data[str(j)]['from'], input_data[str(j)]['to'], alpha_for_alpha_pruning))
+    # alpha_pruning_result_avg = alpha_pruning_result_avg + alpha_pruning_result[j][2]
+
+wb.save('result2.xlsx')
 end_time = time.time()
 print(alpha_pruning_result_avg / len(input_data))
 print("AP_WorkingTime: {} sec".format(end_time-start_time))
-
-for j in range(len(input_data)):
-    start_time = time.time()
-    straight_forward_result.append(straight_forward.get_result(metro, input_data[str(j)]['from'], input_data[str(j)]['to'], alpha_for_straight_forward))
-    straight_forward_result_avg = straight_forward_result_avg + straight_forward_result[j][2]
-
-end_time = time.time()
-print(straight_forward_result_avg / len(input_data))
-print("SF_WorkingTime: {} sec".format(end_time - start_time))
+    #
+    # sheet.cell(row=k, column=1, value="알파 프루닝 결과 평균치")
+    # sheet.cell(row=k, column=2, value=alpha_pruning_result_avg / len(input_data))
+    # sheet.cell(row=k, column=3, value="알파 프루닝 결과 시간")
+    # sheet.cell(row=k, column=4, value=format(end_time-start_time))
+    #
+    # wb.save('result.xlsx')
+# start_time = time.time()
+# for j in range(len(input_data)):
+#     straight_forward_result.append(straight_forward.get_result(metro, input_data[str(j)]['from'], input_data[str(j)]['to'], alpha_for_straight_forward))
+#     straight_forward_result_avg = straight_forward_result_avg + straight_forward_result[j][2]
+#
+# end_time = time.time()
+# print(straight_forward_result_avg / len(input_data))
+# print("SF_WorkingTime: {} sec".format(end_time - start_time))
 
 #
 # time_out = 3

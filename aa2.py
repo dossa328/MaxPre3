@@ -1,31 +1,15 @@
-import json
-from collections import OrderedDict
+import openpyxl
 
-with open('line.json', 'r', encoding='UTF-8') as line_file:
-    line_data = json.load(line_file)
+wb = openpyxl.load_workbook('result2.xlsx')
 
+sheet = wb['Sheet1']
+# sheet['A1'] = 'hello'
+sheet.cell(row=1, column=1, value='되나1')
+sheet.cell(row=1, column=2, value='되나2')
+sheet.cell(row=1, column=3, value='되나3')
+sheet.cell(row=3, column=3, value='되나4')
 
-transline = []
-file_data = OrderedDict()
+print(sheet.cell(row=1, column=1).value)
+print("%s" % sheet.max_column)
 
-for i in line_data:
-    for j in line_data[i]:
-        for k in line_data:
-            for l in line_data[k]:
-                if i == k and j == l:
-                    pass
-                elif j == l:
-                    transline.append({"from": j + i, "to": l + k, "distance": 999, "time": 3})
-                    #transline.append({"from": l + k, "to": j + i, "distance": 999, "time": 3})
-                    # file_data = ["from":j, "to":l, "time":3]
-
-
-print(transline)
-
-'''
-for i in range(10):
-    file_data[i] = [{"from":"신당","to":"신당2"}]
-
-with open('words.json','w',encoding="utf-8") as make_file:
-    json.dump(file_data, make_file, ensure_ascii=False, indent="\t")
-'''
+wb.save('result2.xlsx')

@@ -3,7 +3,7 @@ from collections import OrderedDict
 
 file_data = OrderedDict()
 
-for i in range(887):
+for i in range(1):
     input_vertex = input().split(',')
     file_data[i] = {"from":input_vertex[0], "to":input_vertex[1]}
 

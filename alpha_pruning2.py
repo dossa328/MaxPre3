@@ -1,12 +1,12 @@
 import time
 from copy import deepcopy as c
 import numpy as np
+import collections
 
 import dijkstra
 
-
+count = 0
 def get_result(_metro, in_start, in_end, in_alpha):
-
     def score_sub2(p_sub, _metro):
         cost = cal_path_weight2(p_sub, _metro)
         # cost2 = score_sub(p_sub)
@@ -65,19 +65,70 @@ def get_result(_metro, in_start, in_end, in_alpha):
                 sv = []
         return out_cost
 
-    def find_all_paths(graph2, start, end, _threshold, weight=0,  path=[[], 0]):
-        path[0], path[1] = path[0] + [start], path[1] + weight
+    # my origin
+    # def find_all_paths(graph2, start, end, _threshold, weight=0,  path=[[], 0]):
+    #     path[0], path[1] = path[0] + [start], path[1] + weight
+    #     if start == end:
+    #         return [path]
+    #     paths = []
+    #     for node, w in graph2[start].items():
+    #         if node not in path[0] and path[1] + w <= _threshold:
+    #             # if node not in deny:
+    #             #     deny.append(node)
+    #             newpaths = find_all_paths(graph2, node, end, _threshold, w, c(path))
+    #             for newpath in newpaths:
+    #                 paths.append(newpath)
+    #     # print("add new paths : ", paths)
+    #     return paths
+
+
+    # python.org origin
+    # def find_shortest_path(graph2, start, end, _threshold, weight=0,  path=[[], 0]):
+    #     path[0], path[1] = path[0] + [start], path[1] + weight
+    #     if start == end:
+    #         return path
+    #     if not start in graph2:
+    #         return None
+    #     shortest = None
+    #     for node, w in graph2[start].items():
+    #         if node not in path:
+    #             newpath = find_shortest_path(graph2, node, end, path)
+    #             if newpath:
+    #                 if not shortest or len(newpath) < len(shortest):
+    #                     shortest = newpath
+    #     return shortest
+
+
+    # python.org advanced
+    # def find_shortest_path(graph2, start, end, _threshold, weight=0,  path=[[], 0]):
+    #     dist = {start: [start]}
+    #     q = collections.deque([start])
+    #     while len(q):
+    #         at = q.popleft()
+    #         for next in graph2[at]:
+    #             if next not in dist:
+    #                 dist[next] = [dist[at], next]
+    #                 q.append(next)
+    #     return dist[end]
+
+    # python.org origin all path
+    def find_all_paths(graph2, start, end, path=[]):
+        global count
+        path = path + [start]
         if start == end:
+            if path:
+                if count % 1000 == 0:
+                    print(count, ":", len(path))
+                count = count + 1
             return [path]
+        if not start in graph2:
+            return []
         paths = []
-        for node, w in graph2[start].items():
-            if node not in path[0] and path[1] + w <= _threshold:
-                # if node not in deny:
-                #     deny.append(node)
-                newpaths = find_all_paths(graph2, node, end, _threshold, w, c(path))
+        for node in graph2[start]:
+            if node not in path:
+                newpaths = find_all_paths(graph2, node, end, path)
                 for newpath in newpaths:
                     paths.append(newpath)
-        # print("add new paths : ", paths)
         return paths
 
     dijkstra.cal_dists(in_start)
@@ -86,7 +137,10 @@ def get_result(_metro, in_start, in_end, in_alpha):
 
     threshold = float(dijkstra_dict[in_end]) * in_alpha
 
-    candidate_paths = find_all_paths(_metro.graph.cost_matrix, in_start, in_end, threshold)
+    # candidate_paths = find_all_paths(_metro.graph.cost_matrix, in_start, in_end, threshold)
+    # candidate_paths = find_shortest_path(_metro.graph.cost_matrix, in_start, in_end, threshold)
+    # to origin py_all_path
+    candidate_paths = find_all_paths(_metro.graph.cost_matrix, in_start, in_end)
 
     output = []
     for p in candidate_paths:
@@ -97,7 +151,7 @@ def get_result(_metro, in_start, in_end, in_alpha):
         output.append(p)
 
     # sort , 높은 점수만
-    output = sorted(output, key=lambda cp: -cp[2])
+    # output = sorted(output, key=lambda cp: -cp[2])
     # 가장 짧은 거리만
     output = sorted(output, key=lambda cp: -cp[1])
     return output[0]

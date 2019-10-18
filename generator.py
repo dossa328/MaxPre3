@@ -13,9 +13,6 @@ import time
 with open('line.json', 'r', encoding='UTF-8') as line_file:
     line_data = json.load(line_file)
 
-
-
-
 dataset = []
 
 for i in line_data:
