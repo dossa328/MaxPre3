@@ -2,7 +2,8 @@ import json
 from collections import OrderedDict
 
 file_data = OrderedDict()
-
+# 887
+# 876
 for i in range(1):
     input_vertex = input().split(',')
     file_data[i] = {"from":input_vertex[0], "to":input_vertex[1]}

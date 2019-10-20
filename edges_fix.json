@@ -36,6 +36,7 @@
     {"from":"금천구청","to":"독산","distance":1200,"time":2},
     {"from":"독산","to":"가산디지털단지","distance":2000,"time":3},
     {"from":"가산디지털단지","to":"구로","distance":2400,"time":4},
+
     {"from":"인천","to":"동인천","distance":1900,"time":3},
     {"from":"동인천","to":"도원","distance":1200,"time":2},
     {"from":"도원","to":"제물포","distance":1400,"time":2},
@@ -49,6 +50,7 @@
     {"from":"부개","to":"송내","distance":1200,"time":2},
     {"from":"송내","to":"중동","distance":1000,"time":2},
     {"from":"중동","to":"부천","distance":1700,"time":3},
+    {"from":"부천","to":"소사","distance":1100,"time":2},
     {"from":"소사","to":"역곡","distance":1500,"time":2},
     {"from":"역곡","to":"온수","distance":1300,"time":2},
     {"from":"온수","to":"오류동","distance":1900,"time":3},
@@ -68,6 +70,7 @@
     {"from":"종각","to":"종로3가","distance":800,"time":2},
     {"from":"종로3가","to":"종로5가","distance":900,"time":2},
     {"from":"종로5가","to":"동대문","distance":800,"time":2},
+    {"from":"동대문","to":"동묘앞","distance":600,"time":2},
     {"from":"동묘앞","to":"신설동","distance":700,"time":2},
     {"from":"신설동","to":"제기동","distance":900,"time":2},
     {"from":"제기동","to":"청량리","distance":1000,"time":2},
@@ -105,6 +108,7 @@
     {"from":"용두","to":"신답","distance":900,"time":2},
     {"from":"신답","to":"용답","distance":1000,"time":2},
     {"from":"용답","to":"성수","distance":2300,"time":4},
+
     {"from":"시청","to":"충정로","distance":1100,"time":2},
     {"from":"충정로","to":"아현","distance":800,"time":2},
     {"from":"아현","to":"이대","distance":900,"time":2},
@@ -112,8 +116,10 @@
     {"from":"신촌","to":"홍대입구","distance":1300,"time":2},
     {"from":"홍대입구","to":"합정","distance":1100,"time":2},
     {"from":"합정","to":"당산","distance":2000,"time":3},
+    {"from":"당산","to":"영등포구청","distance":1100,"time":2},
     {"from":"영등포구청","to":"문래","distance":900,"time":2},
     {"from":"문래","to":"신도림","distance":1200,"time":2},
+    {"from":"신도림","to":"대림","distance":1800,"time":3},
     {"from":"대림","to":"구로디지털단지","distance":1100,"time":2},
     {"from":"구로디지털단지","to":"신대방","distance":1100,"time":2},
     {"from":"신대방","to":"신림","distance":1800,"time":3},
@@ -161,6 +167,7 @@
     {"from":"양재","to":"남부터미널","distance":1800,"time":3},
     {"from":"남부터미널","to":"교대","distance":900,"time":2},
     {"from":"교대","to":"고속터미널","distance":1600,"time":2},
+    {"from":"고속터미널","to":"잠원","distance":1200,"time":2},
     {"from":"잠원","to":"신사","distance":900,"time":2},
     {"from":"신사","to":"압구정","distance":1500,"time":2},
     {"from":"압구정","to":"옥수","distance":2100,"time":3},
@@ -248,11 +255,13 @@
     {"from":"방이","to":"올림픽공원","distance":900,"time":2},
     {"from":"올림픽공원","to":"둔촌동","distance":1400,"time":2},
     {"from":"둔촌동","to":"강동","distance":1200,"time":2},
+
     {"from":"상일동","to":"고덕","distance":1100,"time":2},
     {"from":"고덕","to":"명일","distance":1200,"time":2},
     {"from":"명일","to":"굽은다리","distance":700,"time":2},
     {"from":"굽은다리","to":"길동","distance":800,"time":2},
     {"from":"길동","to":"강동","distance":900,"time":2},
+
     {"from":"강동","to":"천호","distance":800,"time":2},
     {"from":"천호","to":"광나루","distance":2000,"time":3},
     {"from":"광나루","to":"아차산","distance":1500,"time":2},
@@ -341,10 +350,12 @@
     {"from":"신중동","to":"춘의","distance":910,"time":2},
     {"from":"춘의","to":"부천종합운동장","distance":1000,"time":2},
     {"from":"부천종합운동장","to":"까치울","distance":1300,"time":2},
+    {"from":"까치울","to":"온수","distance":2200,"time":3},
     {"from":"온수","to":"천왕","distance":1500,"time":2},
     {"from":"천왕","to":"광명사거리","distance":1700,"time":3},
     {"from":"광명사거리","to":"철산","distance":1300,"time":2},
     {"from":"철산","to":"가산디지털단지","distance":1400,"time":2},
+    {"from":"가산디지털단지","to":"남구로","distance":800,"time":2},
     {"from":"남구로","to":"대림","distance":1100,"time":2},
     {"from":"대림","to":"신풍","distance":1400,"time":2},
     {"from":"신풍","to":"보라매","distance":900,"time":2},
@@ -354,6 +365,7 @@
     {"from":"상도","to":"숭실대입구","distance":900,"time":2},
     {"from":"숭실대입구","to":"남성","distance":2000,"time":3},
     {"from":"남성","to":"총신대입구(이수)","distance":1000,"time":2},
+    {"from":"총신대입구(이수)","to":"내방","distance":1000,"time":2},
     {"from":"내방","to":"고속터미널","distance":2200,"time":3},
     {"from":"고속터미널","to":"반포","distance":900,"time":2},
     {"from":"반포","to":"논현","distance":900,"time":2},
@@ -400,6 +412,14 @@
     {"from":"천호","to":"암사","distance":1300,"time":2}
   ],
   "9": [
+    {"from":"중앙보훈병원","to":"둔촌오륜","distance":1700,"time":3},
+    {"from":"둔촌오륜","to":"올림픽공원","distance":1000,"time":2},
+    {"from":"올림픽공원","to":"한성백제","distance":1400,"time":3},
+    {"from":"한성백제","to":"송파나루","distance":800,"time":2},
+    {"from":"송파나루","to":"석촌","distance":800,"time":2},
+    {"from":"석촌","to":"석촌고분","distance":1000,"time":2},
+    {"from":"석촌고분","to":"삼전","distance":800,"time":2},
+    {"from":"삼전","to":"종합운동장","distance":1400,"time":3},
     {"from":"종합운동장","to":"봉은사","distance":1600,"time":3},
     {"from":"봉은사","to":"삼성중앙","distance":660,"time":2},
     {"from":"삼성중앙","to":"선정릉","distance":896,"time":2},
@@ -448,6 +468,7 @@
   "K": [
     {"from":"서울","to":"신촌(경의중앙선)","distance":4690,"time":7},
     {"from":"신촌(경의중앙선)","to":"가좌","distance":2680,"time":4},
+
     {"from":"지평","to":"용문","distance":3900,"time":7},
     {"from":"용문","to":"원덕","distance":4570,"time":5},
     {"from":"원덕","to":"양평(경의중앙선)","distance":5880,"time":5},
@@ -524,7 +545,8 @@
     {"from":"망우","to":"상봉","distance":680,"time":2},
     {"from":"상봉","to":"중랑","distance":1000,"time":2},
     {"from":"중랑","to":"회기","distance":1900,"time":3},
-    {"from":"회기","to":"청량리","distance":1400,"time":3}
+    {"from":"회기","to":"청량리","distance":1400,"time":3},
+    {"from":"상봉","to":"광운대","distance":1100,"time":3}
   ],
   "B": [
     {"from":"수원","to":"매교","distance":1400,"time":2},
@@ -561,7 +583,8 @@
     {"from":"선정릉","to":"강남구청","distance":1200,"time":2},
     {"from":"강남구청","to":"압구정로데오","distance":1200,"time":2},
     {"from":"압구정로데오","to":"서울숲","distance":1200,"time":2},
-    {"from":"서울숲","to":"왕십리","distance":1800,"time":3}
+    {"from":"서울숲","to":"왕십리","distance":1800,"time":3},
+    {"from":"왕십리","to":"청량리","distance":2400,"time":4}
   ],
   "S": [
     {"from":"광교","to":"광교중앙","distance":2240,"time":3},
@@ -578,6 +601,7 @@
     {"from":"양재","to":"강남","distance":1600,"time":2}
   ],
   "SU": [
+    {"from":"오이도","to":"달월","distance":2100,"time":3},
     {"from":"달월","to":"월곶","distance":3900,"time":3},
     {"from":"월곶","to":"소래포구","distance":2600,"time":2},
     {"from":"소래포구","to":"인천논현","distance":2600,"time":2},

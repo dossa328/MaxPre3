@@ -35,7 +35,7 @@ def rand_start_end(_data_set):
     return _start, _end
 
 
-alpha_for_alpha_pruning = 1.0
+alpha_for_alpha_pruning = 1.2
 alpha_for_straight_forward = 1.0
 metro = Metro()
 alpha_pruning_result = []
@@ -78,7 +78,7 @@ for v in reresult:
     #     len_compare_paths_transdata = len_compare_paths_transdata - 1
 
     path_start_end_pairs[len_compare_paths_transdata] = (v[0], v[-1])
-    print(len_compare_paths_transdata,",",v[0],",",v[-1])
+    print(len_compare_paths_transdata, ",", v[0], ",", v[-1])
     print(v)
     sheet.cell(row=index, column=1, value=len_compare_paths_transdata)
     sheet.cell(row=index, column=2, value=v[0])
@@ -87,10 +87,7 @@ for v in reresult:
     # sheet.cell(row=index, column=4).value = v
     # for r in range(0, len(v)):
     #     sheet.cell(row=index, column=4).value=v[r]
-
     index = index + 1
-
-
 
     # alpha_pruning_result.append(alpha_pruning.get_result(metro, input_data[str(j)]['from'], input_data[str(j)]['to'], alpha_for_alpha_pruning))
     # print(alpha_pruning.get_result(metro, input_data[str(j)]['from'], input_data[str(j)]['to'], alpha_for_alpha_pruning))
