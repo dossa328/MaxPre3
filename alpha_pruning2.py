@@ -4,10 +4,18 @@ import numpy as np
 import collections
 
 import dijkstra
-
 count = 0
 ret_path = []
+
+
 def get_result(_metro, in_start, in_end, in_alpha):
+
+    def cal_paths_cost(_metro, paths):
+        sum = 0
+        for kk in range(len(paths)-1):
+            sum = sum + _metro.graph.get_cost(paths[kk], paths[kk+1])
+        return sum
+
     def score_sub2(p_sub, _metro):
         cost = cal_path_weight2(p_sub, _metro)
         # cost2 = score_sub(p_sub)
@@ -161,6 +169,7 @@ def get_result(_metro, in_start, in_end, in_alpha):
             if path:
                 # if count % 1000 == 0:
                 # print(count, ":", path)
+                # print(path)
                 paths.append(path)
                 count = count + 1
             return [path]
@@ -177,24 +186,29 @@ def get_result(_metro, in_start, in_end, in_alpha):
     dijkstra_result = np.load('Dijkstra_result.npy')
     dijkstra_dict = {destination: dist for destination, dist in dijkstra_result}
 
-    threshold = float(dijkstra_dict[in_end]) * in_alpha
+    shortest_path = find_shortest_path(_metro.graph.cost_matrix, in_start, in_end, 0)
+    cc = cal_paths_cost(_metro, shortest_path)
+
+    # threshold = float(dijkstra_dict[in_end]) * in_alpha
+    threshold = float(cc) * in_alpha
 
     #print("al_dij_result:")
     candidate_paths = find_all_paths(_metro.graph.cost_matrix, in_start, in_end, threshold)
     #print("shortest_path_result:")
-    shortest_path = find_shortest_path(_metro.graph.cost_matrix, in_start, in_end, threshold)
     # candidate_paths = find_shortest_path(_metro.graph.cost_matrix, in_start, in_end, threshold)
     # to origin py_all_path
     # candidate_paths = find_all_paths(_metro.graph.cost_matrix, in_start, in_end)
+
+
+
     chk = 0
     for se in candidate_paths:
+        # print("ca : ", se[0])
+        # print("ss : ", shortest_path)
         if shortest_path == se[0]:
-            # print("있음")
+            print("있음")
             chk = 1
             break
-        else:
-            print("ssp:", shortest_path)
-            print("can:", se[0])
 
     if chk == 0:
         print("없었음")

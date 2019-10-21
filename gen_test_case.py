@@ -14,7 +14,7 @@ with open('trans.json', 'r', encoding='UTF-8') as json_file:
 with open('line.json', 'r', encoding='UTF-8') as line_file:
     line_data = json.load(line_file)
 
-with open('input_data2.json', 'r', encoding='UTF-8') as data_file:
+with open('input_data.json', 'r', encoding='UTF-8') as data_file:
     input_data = json.load(data_file)
 
 data_set = []
