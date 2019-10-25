@@ -544,9 +544,9 @@
     {"from":"신내","to":"망우","distance":2000,"time":5},
     {"from":"망우","to":"상봉","distance":680,"time":2},
     {"from":"상봉","to":"중랑","distance":1000,"time":2},
+    {"from":"상봉","to":"광운대","distance":1000,"time":2},
     {"from":"중랑","to":"회기","distance":1900,"time":3},
-    {"from":"회기","to":"청량리","distance":1400,"time":3},
-    {"from":"상봉","to":"광운대","distance":1100,"time":3}
+    {"from":"회기","to":"청량리","distance":1400,"time":3}
   ],
   "B": [
     {"from":"수원","to":"매교","distance":1400,"time":2},
@@ -1005,6 +1005,11 @@
     {"from": "신설동UI", "to": "신설동2", "distance": 999, "time": 3},
     {"from": "소사W", "to": "소사1", "distance": 999, "time": 3},
     {"from": "초지W", "to": "초지4", "distance": 999, "time": 3},
-    {"from": "인천공항1터미널M", "to": "인천공항1터미널A", "distance": 999, "time": 3}
+    {"from": "인천공항1터미널M", "to": "인천공항1터미널A", "distance": 999, "time": 3},
+    {"from": "오이도4", "to": "오이도SU", "distance": 999, "time":3},
+    {"from": "올림픽공원5", "to": "올림픽공원9", "distance": 999, "time":3},
+    {"from": "올림픽공원9", "to": "올림픽공원5", "distance": 999, "time":3},
+    {"from": "석촌9", "to": "석촌8", "distance": 999, "time":3},
+    {"from": "석촌8", "to": "석촌9", "distance": 999, "time":3}
   ]
 }

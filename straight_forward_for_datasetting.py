@@ -2,7 +2,7 @@ import time
 from copy import deepcopy as c
 import numpy as np
 import collections
-import straight_forward_for_datasetting
+
 import dijkstra
 count = 0
 ret_path = []
@@ -74,39 +74,6 @@ def get_result(_metro, in_start, in_end, in_alpha):
                 sv = []
         return out_cost
 
-    # my origin
-    # def find_all_paths(graph2, start, end, _threshold, weight=0,  path=[[], 0]):
-    #     path[0], path[1] = path[0] + [start], path[1] + weight
-    #     if start == end:
-    #         return [path]
-    #     paths = []
-    #     for node, w in graph2[start].items():
-    #         if node not in path[0] and path[1] + w <= _threshold:
-    #             # if node not in deny:
-    #             #     deny.append(node)
-    #             newpaths = find_all_paths(graph2, node, end, _threshold, w, c(path))
-    #             for newpath in newpaths:
-    #                 paths.append(newpath)
-    #     # print("add new paths : ", paths)
-    #     return paths
-
-    # python.org+mine shortest_path origin
-    # def find_shortest_path(graph2, start, end, _threshold, weight=0,  path=[[], 0]):
-    #     path[0], path[1] = path[0] + [start], path[1] + weight
-    #     if start == end:
-    #         return path
-    #     if not start in graph2:
-    #         return None
-    #     shortest = None
-    #     for node, w in graph2[start].items():
-    #         if node not in path:
-    #             newpath = find_shortest_path(graph2, node, end, path)
-    #             if newpath:
-    #                 if not shortest or len(newpath) < len(shortest):
-    #                     shortest = newpath
-    #     return shortest
-
-
     # python.org shortest_path advanced
     def find_shortest_path(graph2, start, end, _threshold, weight=0,  path=[[], 0]):
         dist = {start: [start]}
@@ -121,46 +88,6 @@ def get_result(_metro, in_start, in_end, in_alpha):
         return dist[end]
 
     # python.org origin all path
-    # def find_all_paths(graph2, start, end, path=[]):
-    #     global count
-    #     path = path + [start]
-    #     if start == end:
-    #         if path:
-    #             if count % 1000 == 0:
-    #                 print(count, ":", len(path))
-    #             count = count + 1
-    #         return [path]
-    #     if not start in graph2:
-    #         return []
-    #     paths = []
-    #     for node in graph2[start]:
-    #         if node not in path:
-    #             newpaths = find_all_paths(graph2, node, end, path)
-    #             for newpath in newpaths:
-    #                 paths.append(newpath)
-    #     return paths
-
-    # mine + py.origin_all_paths
-    # def find_all_paths(graph2, start, end, _threshold, weight=0,  path=[[], 0]):
-    #     global count
-    #     path[0], path[1] = path[0] + [start], path[1] + weight
-    #     paths = []
-    #     if start == end:
-    #         if path:
-    #             # if count % 1000 == 0:
-    #             # print(count, ":", path)
-    #             paths.append(path)
-    #             count = count + 1
-    #         return [path]
-    #     if not start in graph2:
-    #         return []
-    #     for node, w in graph2[start].items():
-    #         if node not in path[0] and path[1] + w <= _threshold:
-    #             newpaths = find_all_paths(graph2, node, end, _threshold, w, c(path))
-    #             for newpath in newpaths:
-    #                 paths.append(newpath)
-    #     return paths
-
     def find_all_paths(graph2, start, end, _threshold, weight=0,  path=[[], 0]):
         global count
         path[0], path[1] = path[0] + [start], path[1] + weight
@@ -182,10 +109,6 @@ def get_result(_metro, in_start, in_end, in_alpha):
                     paths.append(newpath)
         return paths
 
-    # dijkstra.cal_dists(in_start)
-    # dijkstra_result = np.load('Dijkstra_result.npy')
-    # dijkstra_dict = {destination: dist for destination, dist in dijkstra_result}
-
     shortest_path = find_shortest_path(_metro.graph.cost_matrix, in_start, in_end, 0)
     cc = cal_paths_cost(_metro, shortest_path)
 
@@ -193,13 +116,11 @@ def get_result(_metro, in_start, in_end, in_alpha):
     threshold = float(cc) * in_alpha
 
     #print("al_dij_result:")
-    # candidate_paths = find_all_paths(_metro.graph.cost_matrix, in_start, in_end, threshold)
+    candidate_paths = find_all_paths(_metro.graph.cost_matrix, in_start, in_end, threshold)
     #print("shortest_path_result:")
     # candidate_paths = find_shortest_path(_metro.graph.cost_matrix, in_start, in_end, threshold)
     # to origin py_all_path
     # candidate_paths = find_all_paths(_metro.graph.cost_matrix, in_start, in_end)
-
-
 
     # chk = 0
     # for se in candidate_paths:
@@ -213,14 +134,16 @@ def get_result(_metro, in_start, in_end, in_alpha):
     # if chk == 0:
     #     print("없었음")
     output = []
-    spsp = []
-    spsp.append([shortest_path,0])
-    for p in spsp:
-        # saved.append(split(p[0]))
-        path_cost = split(p[0], _metro)
-        # p.append([(pow(p[1], -1)) * path_cost])
-        p.append(path_cost)
-        output.append(p)
+    # spsp = []
+    # spsp.append([shortest_path, 0])
+
+    # split
+    # for p in candidate_paths:
+    #     # saved.append(split(p[0]))
+    #     path_cost = split(p[0], _metro)
+    #     # p.append([(pow(p[1], -1)) * path_cost])
+    #     p.append(path_cost)
+    #     output.append(p)
 
     # sort , 높은 점수만
     # output = sorted(output, key=lambda cp: -cp[2])
